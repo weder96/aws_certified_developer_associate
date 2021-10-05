@@ -66,11 +66,11 @@ A tabela precede a descrição completa do conteúdo do exame, que inclui o cont
 
 ## Domínio 1: Implantação
 1.1 Implantar código escrito na AWS usando pipelines, processos e padrões de CI/CD existentes <br/>
-    * 1.1.1 Confirmar o código em um repositório e invocar ações de construção, teste e/ou implantação<br/>
-    * 1.1.2 Usar rótulos e ramificações para o gerenciamento de versões e releases <br/>
-    * 1.1.3 Usar o AWS CodePipeline para orquestrar fluxos de trabalho em diferentes ambientes<br/>
-    * 1.1.4 Aplicar os serviços AWS CodeCommit, AWS CodeBuild, AWS CodePipeline, AWS CodeStar e AWS CodeDeploy para fins de CI/CD <br/>
-    * 1.1.5 Executar um plano de reversão com base na política de implantação de aplicações<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 1.1.1 Confirmar o código em um repositório e invocar ações de construção, teste e/ou implantação<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 1.1.2 Usar rótulos e ramificações para o gerenciamento de versões e releases <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 1.1.3 Usar o AWS CodePipeline para orquestrar fluxos de trabalho em diferentes ambientes<br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 1.1.4 Aplicar os serviços AWS CodeCommit, AWS CodeBuild, AWS CodePipeline, AWS CodeStar e AWS CodeDeploy para fins de CI/CD <br/>
+&nbsp;&nbsp;&nbsp;&nbsp; 1.1.5 Executar um plano de reversão com base na política de implantação de aplicações<br/>
 
 1.2 Implantar aplicações usando o AWS Elastic Beanstalk. <br/>
     * 1.2.1 Utilizar ambientes compatíveis existentes para definir uma nova pilha de aplicações<br/>
