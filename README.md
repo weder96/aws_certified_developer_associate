@@ -66,19 +66,19 @@ A tabela precede a descrição completa do conteúdo do exame, que inclui o cont
 
 ## Domínio 1: Implantação
 1.1 Implantar código escrito na AWS usando pipelines, processos e padrões de CI/CD existentes <br/>
-    1.1.1 Confirmar o código em um repositório e invocar ações de construção, teste e/ou implantação<br/>
-    1.1.2 Usar rótulos e ramificações para o gerenciamento de versões e releases <br/>
-    1.1.3 Usar o AWS CodePipeline para orquestrar fluxos de trabalho em diferentes ambientes<br/>
-    1.1.4 Aplicar os serviços AWS CodeCommit, AWS CodeBuild, AWS CodePipeline, AWS CodeStar e AWS CodeDeploy para fins de CI/CD <br/>
-    1.1.5 Executar um plano de reversão com base na política de implantação de aplicações<br/>
+    * 1.1.1 Confirmar o código em um repositório e invocar ações de construção, teste e/ou implantação<br/>
+    * 1.1.2 Usar rótulos e ramificações para o gerenciamento de versões e releases <br/>
+    * 1.1.3 Usar o AWS CodePipeline para orquestrar fluxos de trabalho em diferentes ambientes<br/>
+    * 1.1.4 Aplicar os serviços AWS CodeCommit, AWS CodeBuild, AWS CodePipeline, AWS CodeStar e AWS CodeDeploy para fins de CI/CD <br/>
+    * 1.1.5 Executar um plano de reversão com base na política de implantação de aplicações<br/>
 
 1.2 Implantar aplicações usando o AWS Elastic Beanstalk. <br/>
-    1.2.1 Utilizar ambientes compatíveis existentes para definir uma nova pilha de aplicações
-    1.2.2 Empacotar a aplicação
-    1.2.3 Apresentar uma nova versão da aplicação no ambiente do Elastic Beanstalk
-    1.2.4 Utilizar uma política de implantação para uma versão da aplicação (ou seja, implantação “todas de uma vez”, contínua, contínua com lotes, imutável)
-    1.2.5 Validar a integridade da aplicação usando o painel do Elastic Beanstalk
-    1.2.6 Usar o Amazon CloudWatch Logs para instrumentar o registro em log de aplicações
+    * 1.2.1 Utilizar ambientes compatíveis existentes para definir uma nova pilha de aplicações<br/>
+    * 1.2.2 Empacotar a aplicação<br/>
+    * 1.2.3 Apresentar uma nova versão da aplicação no ambiente do Elastic Beanstalk<br/>
+    * 1.2.4 Utilizar uma política de implantação para uma versão da aplicação (ou seja, implantação “todas de uma vez”, contínua, contínua com lotes, imutável)<br/>
+    * 1.2.5 Validar a integridade da aplicação usando o painel do Elastic Beanstalk<br/>
+    * 1.2.6 Usar o Amazon CloudWatch Logs para instrumentar o registro em log de aplicações<br/>
 
 1.3 Preparar o pacote de implantação de aplicações a ser implantado na AWS. <br/>
     1.3.1 Gerenciar as dependências do módulo de código (como variáveis de ambiente, arquivos de configuração e arquivos de imagem estática) dentro do pacote <br/>
