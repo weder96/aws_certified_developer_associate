@@ -2,44 +2,43 @@
 
 ## Introdução
 O exame AWS Certified Developer – Associate (DVA-C01) destina-se a pessoas que desempenham a
-função de desenvolvedor. O exame valida a capacidade de um candidato de:
+função de desenvolvedor. O exame valida a capacidade de um candidato de:<br/>
 Demonstrar um entendimento dos principais produtos e usos da AWS, bem como as práticas
-recomendadas básicas de arquitetura da AWS
+recomendadas básicas de arquitetura da AWS<br/>
 Demonstrar proficiência em desenvolvimento, implantação e depuração de aplicações baseadas
-na nuvem usando a AWS
+na nuvem usando a AWS<br/>
 
 ## Descrição do candidato
-O candidato deve ter um ano ou mais de experiência prática no desenvolvimento e na manutenção de
-uma aplicação baseada na AWS.
-Conhecimento geral de TI recomendado
+O candidato deve ter um ano ou mais de experiência prática no desenvolvimento e na manutenção de uma aplicação baseada na AWS.<br/>
+
+# Conhecimento geral de TI recomendado
 O candidato deve ter:
-    Conhecimento aprofundado em pelo menos uma linguagem de programação de alto nível
-    Compreensão do gerenciamento do ciclo de vida da aplicação
-    Capacidade de escrever código para aplicações sem servidor
-    Compreensão do uso de contêineres no processo de desenvolvimento
+    1. Conhecimento aprofundado em pelo menos uma linguagem de programação de alto nível
+    2. Compreensão do gerenciamento do ciclo de vida da aplicação
+    3. Capacidade de escrever código para aplicações sem servidor
+    4. Compreensão do uso de contêineres no processo de desenvolvimento
    
 # Conhecimento recomendado da AWS
-O candidato deve ser capaz de:
-Usar as APIs de produtos da AWS, a CLI e os kits de desenvolvimento de software (SDKs) para escrever aplicações
-Identificar os principais recursos dos produtos da AWS
-Compreender o modelo de responsabilidade compartilhada da AWS
-Usar um pipeline de integração e entrega contínuas (CI/CD) para implantar aplicações na AWS
-Usar e interagir com os produtos da AWS
-Aplicar o entendimento básico de aplicações nativas da nuvem para escrever código
-Escrever código usando as práticas recomendadas de segurança da AWS (por exemplo, usar funções do IAM em vez de chaves de acesso e chaves secretas no código)
-Criar, manter e depurar módulos de código na AWS
+O candidato deve ser capaz de:<br/>
 
-O que é considerado fora do escopo do candidato?
+1. Usar as APIs de produtos da AWS, a CLI e os kits de desenvolvimento de software (SDKs) para escrever aplicações
+2. Identificar os principais recursos dos produtos da AWS
+3. Compreender o modelo de responsabilidade compartilhada da AWS
+4. Usar um pipeline de integração e entrega contínuas (CI/CD) para implantar aplicações na AWS
+5. Usar e interagir com os produtos da AWS
+6. Aplicar o entendimento básico de aplicações nativas da nuvem para escrever código
+7. Escrever código usando as práticas recomendadas de segurança da AWS (por exemplo, usar funções do IAM em vez de chaves de acesso e chaves secretas no código)
+8. Criar, manter e depurar módulos de código na AWS
+
+## O que é considerado fora do escopo do candidato?
 Veja a seguir uma lista (não completa) de tarefas de trabalho relacionadas as quais não se espera que o
-candidato seja capaz de executar. Estes itens são considerados fora do escopo do exame
-
- Projetar arquiteturas (por exemplo, sistema distribuído, microsserviços)
- Projetar e implementar pipelines de CI/CD
- Administrar usuários e grupos do IAM
- Administrar o Amazon Elastic Container Service (Amazon ECS)
- Projetar a infraestrutura de redes da AWS (por exemplo, Amazon VPC, AWS Direct Connect)
- Compreender a compatibilidade e o licenciamento
-
+candidato seja capaz de executar. Estes itens são considerados fora do escopo do exame <br/>
+ 1. Projetar arquiteturas (por exemplo, sistema distribuído, microsserviços)
+ 2. Projetar e implementar pipelines de CI/CD
+ 3. Administrar usuários e grupos do IAM
+ 4. Administrar o Amazon Elastic Container Service (Amazon ECS)
+ 5. Projetar a infraestrutura de redes da AWS (por exemplo, Amazon VPC, AWS Direct Connect)
+ 6. Compreender a compatibilidade e o licenciamento
 
 # Guia do Exame
 ## AWS Certified Developer – Associate (DVA-C01) Guia do exame 
@@ -48,11 +47,11 @@ Acessado em: 05/10/2021 as 12:10
 
 
 ## Descrição do conteúdo
-Este guia de exame inclui os pesos, os domínios do teste e os objetivos do exame. Não é uma lista
-abrangente do conteúdo do exame. No entanto, disponibilizamos um contexto adicional para cada um
-dos objetivos visando ajudar a orientar sua preparação para o exame. A tabela a seguir lista os principais
-domínios de conteúdo e seus pesos. A tabela precede a descrição completa do conteúdo do exame, que
-inclui o contexto adicional. A porcentagem de cada domínio representa apenas o conteúdo pontuado.
+Este guia de exame inclui os pesos, os domínios do teste e os objetivos do exame. <br/>
+Não é uma lista abrangente do conteúdo do exame. <br/>
+No entanto, disponibilizamos um contexto adicional para cada um dos objetivos visando ajudar a orientar sua preparação para o exame. <br/>
+A tabela a seguir lista os principais domínios de conteúdo e seus pesos. <br/>
+A tabela precede a descrição completa do conteúdo do exame, que inclui o contexto adicional. A porcentagem de cada domínio representa apenas o conteúdo pontuado.<br/>
 
 
 | Domínio                                            |       % do exame    | 
@@ -67,10 +66,28 @@ inclui o contexto adicional. A porcentagem de cada domínio representa apenas o 
 
 ## Domínio 1: Implantação
 1.1 Implantar código escrito na AWS usando pipelines, processos e padrões de CI/CD existentes <br/>
-1.2 Implantar aplicações usando o AWS Elastic Beanstalk. <br/>
-1.3 Preparar o pacote de implantação de aplicações a ser implantado na AWS. <br/>
-1.4 Implantar aplicações sem servidor <br/>
+    1.1.1 Confirmar o código em um repositório e invocar ações de construção, teste e/ou implantação<br/>
+    1.1.2 Usar rótulos e ramificações para o gerenciamento de versões e releases <br/>
+    1.1.3 Usar o AWS CodePipeline para orquestrar fluxos de trabalho em diferentes ambientes<br/>
+    1.1.4 Aplicar os serviços AWS CodeCommit, AWS CodeBuild, AWS CodePipeline, AWS CodeStar e AWS CodeDeploy para fins de CI/CD <br/>
+    1.1.5 Executar um plano de reversão com base na política de implantação de aplicações<br/>
 
+1.2 Implantar aplicações usando o AWS Elastic Beanstalk. <br/>
+    1.2.1 Utilizar ambientes compatíveis existentes para definir uma nova pilha de aplicações
+    1.2.2 Empacotar a aplicação
+    1.2.3 Apresentar uma nova versão da aplicação no ambiente do Elastic Beanstalk
+    1.2.4 Utilizar uma política de implantação para uma versão da aplicação (ou seja, implantação “todas de uma vez”, contínua, contínua com lotes, imutável)
+    1.2.5 Validar a integridade da aplicação usando o painel do Elastic Beanstalk
+    1.2.6 Usar o Amazon CloudWatch Logs para instrumentar o registro em log de aplicações
+
+1.3 Preparar o pacote de implantação de aplicações a ser implantado na AWS. <br/>
+    1.3.1 Gerenciar as dependências do módulo de código (como variáveis de ambiente, arquivos de configuração e arquivos de imagem estática) dentro do pacote <br/>
+    1.3.2 Descrever a estrutura de diretórios de pacote/contêiner e organizar os arquivos   adequadamente <br/>
+    1.3.3 Traduzir os requisitos de recursos de aplicação para os parâmetros de infraestrutura da AWS (por exemplo, memória, núcleos) <br/>
+
+1.4 Implantar aplicações sem servidor <br/>
+    1.4.1  Com base em um caso de uso, implementar e iniciar um modelo do AWS Serverless Application Model (AWS SAM) <br/>
+    1.4.2 Gerenciar ambientes em produtos individuais da AWS (por exemplo, diferenciar entre desenvolvimento, teste e produção no Amazon API Gateway)<br/>
 
 ## Domínio 2: Segurança
 2.1 Fazer chamadas autenticadas para produtos da AWS. <br/>
