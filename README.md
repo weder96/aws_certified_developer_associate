@@ -55,44 +55,44 @@ domínios de conteúdo e seus pesos. A tabela precede a descrição completa do 
 inclui o contexto adicional. A porcentagem de cada domínio representa apenas o conteúdo pontuado.
 
 
-Domínio                                           % do exame
-Domínio 1: Implantação                              22%
-Domínio 2: Segurança                                26%
-Domínio 3: Desenvolvimento com os produtos da AWS   30%
-Domínio 4: Refatoração                              10%
-Domínio 5: Monitoramento e resolução de problemas   12%
-TOTAL                                               100%
-
+| Domínio                                            |       % do exame    | 
+| -------------------------------------------------- | ------------------- |
+| Domínio 1: Implantação                             |         22%         |
+| Domínio 2: Segurança                               |         26%         |
+| Domínio 3: Desenvolvimento com os produtos da AWS  |         30%         |
+| Domínio 4: Refatoração                             |         10%         |
+| Domínio 5: Monitoramento e resolução de problemas  |         12%         |
+| TOTAL                                              |        100%         |
 
 
 ## Domínio 1: Implantação
-1.1 Implantar código escrito na AWS usando pipelines, processos e padrões de CI/CD existentes
-1.2 Implantar aplicações usando o AWS Elastic Beanstalk.
-1.3 Preparar o pacote de implantação de aplicações a ser implantado na AWS.
-1.4 Implantar aplicações sem servidor
+1.1 Implantar código escrito na AWS usando pipelines, processos e padrões de CI/CD existentes <br/>
+1.2 Implantar aplicações usando o AWS Elastic Beanstalk. <br/>
+1.3 Preparar o pacote de implantação de aplicações a ser implantado na AWS. <br/>
+1.4 Implantar aplicações sem servidor <br/>
 
 
 ## Domínio 2: Segurança
-2.1 Fazer chamadas autenticadas para produtos da AWS.
-2.2 Implementar criptografia usando os produtos da AWS. 
-2.3 Implementar a autenticação e a autorização de aplicações.
+2.1 Fazer chamadas autenticadas para produtos da AWS. <br/>
+2.2 Implementar criptografia usando os produtos da AWS.  <br/>
+2.3 Implementar a autenticação e a autorização de aplicações.<br/>
 
 
 ## Domínio 3: Desenvolvimento com os produtos da AWS
-3.1 Escrever código para aplicações sem servidor.
-3.2 Traduzir requisitos funcionais para o design de aplicações.
-3.3 Implementar o design da aplicação em seu próprio código.
-3.4 Escrever código capaz de interagir com os produtos da AWS usando APIs, SDKs e a AWS CLI
+3.1 Escrever código para aplicações sem servidor. <br/>
+3.2 Traduzir requisitos funcionais para o design de aplicações. <br/>
+3.3 Implementar o design da aplicação em seu próprio código. <br/>
+3.4 Escrever código capaz de interagir com os produtos da AWS usando APIs, SDKs e a AWS CLI <br/>
 
 
 ## Domínio 4: Refatoração
-4.1 Otimizar a aplicação para usar melhor os recursos e produtos da AWS
-4.2 Migrar o código de aplicação existente para executar na AWS.
+4.1 Otimizar a aplicação para usar melhor os recursos e produtos da AWS <br/>
+4.2 Migrar o código de aplicação existente para executar na AWS. <br/>
 
 
 ## Domínio 5: Monitoramento e resolução de problemas
-5.1 Escrever código passível de monitoramento.
-5.2 Executar análise de causa raiz em falhas encontradas em testes ou na produção.
+5.1 Escrever código passível de monitoramento. <br/>
+5.2 Executar análise de causa raiz em falhas encontradas em testes ou na produção. <br/>
 
 
 
