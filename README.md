@@ -348,8 +348,217 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
 -  AWS Identity and Access Management (IAM)
 -  AWS Key Management Service (AWS KMS)
 
-# Armazenamento:
--  Amazon S3
+# Storage:
+## STORAGE CONCEPTS
+Hard Disk Drives (HDD) have been around for a long while and are still in widespread use today. An
+HDD is a mechanical drive with spinning platters and a head that floats above the platters and moves
+into position to read and write data.
+
+HDDs are also known as magnetic drives as they use magnetic polarization to record a one or zero value.
+The performance of an HDD depends on a number of factors and these include the following
+measurements:
+
+  - Revolutions Per Minute (RPM) – the speed of rotation of the platters
+  - Seek time – the mean time it takes to move the head of a disk drive from one track to another
+  - Input / Output Operations Per Second (IOPS) – the number of IO transactions per second
+  - Throughput – the data transfer rate of a drive
+
+HDDs provide good throughput, large capacity, and are extremely low cost.
+
+Solid State Drives (SSD) store data on non-volatile microchips and have no moving parts. Non-volatile
+SSD chips differ from computer memory in that the data is retained when power is removed.
+
+SSDs offer extremely high IOPS performance when compared to HDDs and also provide good
+throughput. SSDs are also much more expensive.
+
+## MEASURING DATA
+Stored data is typically measured using the decimal system in: 
+  - kilobytes (kB) 
+  - Megabytes (MB)
+  - Gigabytes (GB) 
+  - Terabytes (TB)
+  - Petabytes (PB)
+
+In some cases, the binary prefix is used such as gibibyte (GiB). A gibibyte is equal to 1024 mebibytes
+(MiB) while a gigabyte (GB) is equal to 1000 megabytes (MB).
+
+To confuse matters, a GB of computer memory is equal to 1024 MB (rather than 1000 MB) and some
+storage manufacturers have been known to use this measurement for disks too.
+
+The following table shows how each term relates to the other in both the decimal and binary formats
+and the values are the number of bytes (a byte is 8 bits).
+
+## DATA ACCESSIBILITY SLAS
+Cloud service providers will often provide service level agreements (SLAs) for the availability and
+durability of their storage systems.
+
+<b>Availability</b> relates to system uptime, i.e. the amount of time per month or year that the storage
+system is operational and can deliver data upon request. Service providers aim to increase availability
+by designing highly available and fault tolerant storage systems.
+
+Availability is usually expressed as a percentage of uptime in a given year. The following table shows
+some common availability SLAs and how much downtime each corresponds with:
+
+<img src="./images/slaStorage2021.png" title="Slas"></img>
+
+Durability relates to measuring the amount of data that may be lost due to errors occurring when
+writing data. In other words, durability measures the likelihood of losing some of your data.
+Durability is usually expressed as a percentage of reliability and can also be interpreted as the number
+of files that are likely to be lost in a given year.
+The following table shows the four Amazon Simple Storage Service (S3) storage classes with their
+respective durability SLAs and how many files could be lost per year:
+
+<img src="./images/durability.png" title="Durability"></img>
+
+
+## CLOUD STORAGE TYPES
+As mentioned earlier, cloud storage is generally object-based, block-based or file-based storage. These
+terms relate to the type of data stored, the protocols used to access it and the method of data storage.
+
+### Object Storage
+With object storage data is managed as individual objects rather than a file hierarchy (as with a
+traditional file system). Each object includes the data itself, metadata (data about the data), and a
+globally unique identifier.
+Due to its flat file structure, object storage has virtually unlimited scalability and allows the retention
+of massive amounts of unstructured data. The data is often replicated across multiple physical systems
+and facilities providing high availability and durability.
+
+<img src="./images/s3Object.png" title="s3Object" height="500px"></img>
+
+
+Object storage is usually accessed over Representational State Transfer (REST) and Simple Object
+Access Protocol (SOAP) over Hypertext Transfer Protocol (HTTP).
+
+
+The Amazon Simple Storage Service (S3) is a key, value object-based storage system built to store and
+retrieve huge amounts of data from any source.
+
+Objects in S3 are stored in a flat structure with no hierarchy. The top level containers within which
+objects are stored are known as buckets. Though there is no hierarchy, S3 does support the concept
+of folders for organization (grouping of objects).
+
+There are several S3 storage classes with varying levels of availability, durability and features. The
+standard class offers the following features:
+
+- Low latency and high throughput performance
+- Designed for durability of 99.999999999% of objects across multiple Availability Zones
+- Data is resilient in the event of one entire Availability Zone destruction
+- Designed for 99.99% availability over a given year
+- Backed with the Amazon S3 Service Level Agreement for availability
+- Supports SSL for data in transit and encryption of data at rest
+- Lifecycle management for automatic migration of objects
+
+Common use cases for object storage include backup, application hosting, media hosting and software
+delivery.
+
+
+## Block Storage
+Data is stored and managed in blocks within sectors and tracks and is controlled by a server-based
+operating system. Block storage volumes appear as local disks to the operating system and can be
+partitioned and formatted.
+
+<img src="./images/ebs_snapshot.png" title="ebs_snapshot" height="500px"></img>
+
+
+Block storage is typically used in Storage Area Network (SAN) environments that use the Fibre Channel
+(FC) protocol as well as Ethernet networks using protocols such as iSCSI or Fibre Channel over Ethernet
+(FCoE).
+
+Block storage is typically more expensive than object or file storage but provides low latency, and high
+and consistent performance. The costs are often highest in SAN implementations due to the
+specialized equipment required.
+
+Amazon Elastic Block Store (EBS) is the AWS service for block storage. EBS provides persistent block
+storage volumes for use with EC2 instances in the AWS cloud.
+There are several EBS volume types to choose from with varying characteristics as can be seen in the
+table below:
+
+<img src="./images/EBS_Volume_Types.png" title="EBS_Volume_Types.png" height="700px"></img>
+
+## Solid state drives (SSD-backed) volumes
+
+<img src="./images/Solid-state-drives-SSD-backed-volumes.png" title="Solid-state-drives-SSD-backed-volumes" height="700px"></img>
+
+### General Purpose SSD Volumes (gp2/gp3)
+- General Purpose SSD volumes offer cost-effective storage that is ideal for a broad range of workloads.
+- General Purpose SSD volumes deliver single-digit millisecond latencies
+- General Purpose SSD volumes can range in size from 1 GiB to 16 TiB.
+- General Purpose SSD (gp2) volumes
+  - has a maximum throughput of 160 MiB/s (at 214 GiB and larger).
+  - provides a baseline performance of 3 IOPS/GiB
+  - provides the ability to burst to 3,000 IOPS for extended periods of time for volume size less then 1 TiB and up to a maximum of 16,000 IOPS (at 5,334 GiB).
+  - If the volume performance is frequently limited to the baseline level (due to an empty I/O credit balance),
+    - consider using a larger General Purpose SSD volume (with a higher baseline performance level) or
+    - switching to a Provisioned IOPS SSD volume for workloads that require sustained IOPS performance greater than 16,000 IOPS.
+- General Purpose SSD (gp3) volumes
+  - deliver a consistent baseline rate of 3,000 IOPS and 125 MiB/s, included with the price of storage.
+  - additional IOPS (up to 16,000) and throughput (up to 1,000 MiB/s) can be provisioned for an additional cost.
+  - the maximum ratio of provisioned IOPS to provisioned volume size is 500 IOPS per GiB
+  - the maximum ratio of provisioned throughput to provisioned IOPS is .25 MiB/s per IOPS.
+
+## I/O Credits and Burst Performance
+- I/O credits represent the available bandwidth that the General Purpose SSD volume can use to burst large amounts of I/O when more than the baseline performance is needed.
+- General Purpose SSD (gp2) volume performance is governed by volume size, which dictates the baseline performance level of the volume for e.g. 100 GiB volume has a 300 IOPS @ 3 IOPS/GiB
+- General Purpose SSD volume size also determines how quickly it accumulates I/O credits for e.g. 100 GiB with a performance of 300 IOPS can accumulate 180K IOPS/10 mins (300 * 60 * 10).
+- Larger volumes have higher baseline performance levels and accumulate I/O credits faster for e.g. 1 TiB has a baseline performance of 3000 IOPS
+- More credits the volume has for I/O, the more time it can burst beyond its baseline performance level and the better it performs when more performance is needed for e.g. 300 GiB volume with 180K I/O credit can burst @ 3000 IOPS for 1 minute (180K/3000)
+- Each volume receives an initial I/O credit balance of 5,400,000 I/O credits, which is enough to sustain the maximum burst performance of 3,000 IOPS for 30 minutes.
+- Initial credit balance is designed to provide a fast initial boot cycle for boot volumes and a good bootstrapping experience for other applications.
+- Each volume can accumulate I/O credits over a period of time which can be to burst to the required performance level, up to a max of 3,000 IOPS
+- Unused I/O credit cannot go beyond 54,00,000 I/O credits.
+
+<img src="./images/screen-shot-2016-03-12-at-1-25-48-pm.png" title="screen-shot-2016-03-12-at-1-25-48-pm" height="400px"></img>
+
+- Volumes till 1 TiB can burst up to 3000 IOPS over an above its baseline performance
+- Volumes larger than 1 TiB have a baseline performance that is already equal or greater than the maximum burst performance, and  their I/O credit balance never depletes.
+- Baseline performance cannot be beyond 10000 IOPS for General Purpose SSD volumes and this limit is reached @ 3333 GiB
+
+<img src="./images/screen-shot-2016-03-12-at-1-47-06-pm.png" title="screen-shot-2016-03-12-at-1-47-06-pm" height="700px"></img>
+
+
+- Baseline Performance
+  - Formula – 3 IOPS i.e. GiB * 3
+  - Calculation example
+    - 1 GiB volume size =  3 IOPS (1 * 3 IOPS)
+    - 250 GiB volume size = 750 IOPS (250* 3 IOPS)
+
+Maximum burst duration @ 3000 IOPS
+
+
+## Hard disk drives (HDD-backed) volumes
+<img src="./images/Hard-disk-drives-HDD-backed-volumes.png" title="Hard-disk-drives-HDD-backed-volumes.png" height="700px"></img>
+
+
+## EBS Volume Types (Previous Generation – Reference Only)
+
+<img src="./images/screen-shot-2016-03-12-at-7-21-06-am.png" title="screen-shot-2016-03-12-at-7-21-06-am" height="700px"></img>
+
+
+# File Storage
+File storage servers store data in a hierarchical structure using files and folders. Data is accessed as
+file IDs across a network using either the Server Message Block (SMB) for Windows, or Network File
+System (NFS) for Unix/Linux.
+
+A file system is mounted via the network to a client computer where it then becomes accessible for
+reading and writing data. Files and folders can be created, updated, and deleted.
+
+<img src="./images/FileStorage.png" title="FileStorage.png" height="700px"></img>
+
+Only file-level operations can occur on a mounted file system. It is not possible to issue block level
+commands or format or partition the underlying storage volumes.
+
+File storage is easy to implement and use and is generally quite inexpensive. Use cases include web
+serving and content management, shared corporate directories, home drives, database backups and
+big data analytics workloads.
+
+The Amazon Elastic File System (EFS) is a simple, scalable, elastic file storage in the AWS cloud that is
+based on NFS. EFS provides the ability to mount a file system to many EC2 instances simultaneously
+and can achieve high levels of aggregate throughput and IOPS.
+
+EFS is a regional AWS service and provides high availability and durability by storing data redundantly
+across Availability Zones (AZs).
+
+
 
 # Recursos e produtos da AWS fora do escopo
 Veja a seguir uma lista (não completa) de recursos e produtos da AWS que não são abordados no
@@ -760,6 +969,30 @@ Os recursos e produtos da AWS fora do escopo são:
 # Section 4: Identity & Access Management {IAM Roles}
 
 ## IAM Overview
+
+### GENERAL IAM CONCEPTS
+AWS Identity and Access Management (IAM) is a web service that helps you securely control access
+to AWS resources.
+
+You use IAM to control who is authenticated (signed in) and authorized (has permissions) to use resources.
+
+IAM makes it easy to provide multiple users secure access to AWS resources.
+When you first create an AWS account, you begin with a single sign-in identity that has complete
+access to all AWS services and resources in the account.
+
+This identity is called the AWS account root user and is accessed by signing in with the email address
+and password that you used to create the account
+
+IAM can be used to manage:
+  - Users
+  - Groups
+  - Access policies
+  - Roles
+  - User credentials
+  - User password policies
+  - Multi-factor authentication (MFA)
+  - API keys for programmatic access (CLI)
+
 Creating users {U}, groups {G}, policies {P}, roles {R}
 Controls access.
 Identity Federation
@@ -774,6 +1007,98 @@ Identity Federation
     - allowing it to access S3 and store data there;
 
 
+Provides centralized control of your AWS account.<br/>
+Enables shared access to your AWS account.<br/>
+IAM provides the following features:<br/>
+  - Shared access to your AWS account
+  - Granular permissions
+  - Secure access to AWS resources for application that run on Amazon EC2
+  - Multi-Factor authentication
+  - Identity federation
+  - Identity information for assurance
+  - PCI DSS compliance
+  - Integrated with may AWS services
+  - Eventually consistent
+  - Free to use
+
+
+You can work with AWS Identity and Access Management in any of the following ways:
+  - AWS Management Console
+  - AWS Command Line Tools
+  - AWS SDK
+  - IAM HTTPS API
+
+By default, new users are created with NO access to any AWS services – they can only login to the
+AWS console.
+
+Permission must be explicitly granted to allow a user to access an AWS service.
+IAM users are individuals who have been granted access to an AWS account.
+
+Each IAM user has three main components:
+  - A user-name
+  - A password
+  - Permissions to access various resources
+
+You can apply granular permissions with IAM.
+
+
+You can assign users individual security credentials such as access keys, passwords, and multi-factor
+authentication devices.
+
+IAM is not used for application-level authentication.
+
+Identity Federation (including AD, Facebook etc.) can be configured allowing secure access to
+resources in an AWS account without creating an IAM user account.
+
+Multi-factor authentication (MFA) can be enabled/enforced for the AWS account and for individual
+users under the account.
+
+MFA uses an authentication device that continually generates random, six-digit, single-use
+authentication codes.
+
+- You can authenticate using an MFA device in the following two ways:
+  - Through the AWS Management Console – the user is prompted for a username, password and authentication code.
+  - Using the AWS API – restrictions are added to IAM policies and developers can request
+temporary security credentials and pass MFA parameters in their AWS STS API requests.
+  - Using the AWS CLI by obtaining temporary security credentials from STS (aws sts get-session-token).
+
+
+It is a best practice to always setup multi-factor authentication on the root account.
+
+IAM is universal (global) and does not apply to regions.
+
+IAM is eventually consistent.
+
+IAM replicates data across multiple data centers around the world.
+
+The “root account” is the account created when you setup the AWS account. It has complete Admin
+access and is the only account that has this access by default.
+
+It is a best practice to not use the root account for anything other than billing.
+
+Power user access allows all permissions except the management of groups and users in IAM.
+
+Temporary security credentials consist of the AWS access key ID, secret access key and security token.
+
+IAM can assign temporary security credentials to provide users with temporary access to
+services/resources.
+
+To sign-in you must provide your account ID or account alias in addition to a username and password.
+
+The sign-in URL includes the account ID or account alias, e.g.:
+https://My_AWS_Account_ID.signin.aws.amazon.com/console/
+
+Alternatively, you can sign-in at the following URL and enter your account ID or alias manually:
+https://console.aws.amazon.com/
+
+IAM integrates with many different AWS services.
+IAM supports PCI DSS compliance.
+
+AWS recommend that you use the AWS SDKs to make programmatic API calls to IAM.
+
+However, you can also use the IAM Query API to make direct calls to the IAM web service.
+
+
 ## IAM Users 
 - An IAM user is an entity that represents a person or service
 - Can be assigned:
@@ -782,6 +1107,35 @@ Identity Federation
 - By default users cannot access anything in your account
 - The account root user credentials are the email address used to create the account and a password
 - The root account has full administrative permissions and these cannot be restricted
+
+  - Best practice for root accounts:
+    - Don’t use the root user credentials
+    - Don’t share the root user credentials
+    - Create an IAM user and assign administrative permissions as required
+    - Enable MFA
+
+IAM users can be created to represent applications and these are known as “service accounts”.
+
+You can have up to 5,000 users per AWS account.
+
+Each user account has a friendly name and an ARN which uniquely identifies the user across AWS.
+
+A unique ID is also created which is returned only when you create the user using the API, Tools for
+
+Windows PowerShell or the AWS CLI.
+
+You should create individual IAM accounts for users (best practice not to share accounts).
+
+The Access Key ID and Secret Access Key are not the same as a password and cannot be used to login to the AWS console.
+
+The Access Key ID and Secret Access Key can only be used once and must be regenerated if lost.
+
+A password policy can be defined for enforcing password length, complexity etc. (applies to all users).
+
+You can allow or disallow the ability to change passwords using an IAM policy.
+
+Access keys and passwords should be changed regularly.
+
 
 
 ## IAM Groups
@@ -799,6 +1153,29 @@ Identity Federation
 - roles bypass need for an explicit userid/password
 - defined role permissions assumed by entities having that role
 - With IAM Roles you can delegate permissions to resources for users and services without using permanent credentials (e.g. user name and password)
+- IAM users or AWS services can assume a role to obtain temporary security credentials that can be
+used to make AWS API calls.
+- You can delegate using roles.
+- There are no credentials associated with a role (password or access keys).
+- IAM users can temporarily assume a role to take on permissions for a specific task.
+- A role can be assigned to a federated user who signs in using an external identity provider.
+- Temporary credentials are primarily used with IAM roles and automatically expire.
+- Roles can be assumed temporarily through the console or programmatically with the AWS CLI, Tools
+  for Windows PowerShell or API.
+
+### IAM roles with EC2 instances:
+  - IAM roles can be used for granting applications running on EC2 instances permissions to AWS API requests using instance profiles.
+  - Only one role can be assigned to an EC2 instance at a time.
+  - A role can be assigned at the EC2 instance creation time or at any time afterwards.
+  - When using the AWS CLI or API instance profiles must be created manually (it’s automatic and transparent through the console).
+  - Applications retrieve temporary security credentials from the instance metadata.
+
+### Role Delegation:
+- Create an IAM role with two policies:
+  - Permissions policy – grants the user of the role the required permissions on a resource.
+  - Trust policy – specifies the trusted accounts that are allowed to assume the role.
+- Wildcards (*) cannot be specified as a principal.
+- A permissions policy must also be attached to the user in the trusted account.
 
 
 ## IAM Policies
@@ -807,6 +1184,9 @@ Identity Federation
 - Policy documents are written in JSON (key value pair that consists of an attribute and a value)
 - All permissions are implicitly denied by default
 - The most restrictive policy is applied
+- The IAM policy simulator is a tool to help you understand, test, and validate the effects of access
+  control policies.
+- The Condition element can be used to apply further conditional logic.
 
 
 ## IAM Authentication Methods
@@ -830,11 +1210,117 @@ Identity Federation
 - in AWS
   - {You Know} IAM User password
   - {You Have} virtual {apt generate a code} or physical {RSA device} MFA device
+- Console password:
+  - A password that the user can enter to sign-in to interactive sessions such as the AWS
+  Management Console.
+  - You can allow users to change their own passwords.
+  - You can allow selected IAM users to change their passwords by disabling the option for all
+  users and using an IAM policy to grant permissions for the selected users.
 
 
 ## IAM Security Token Service {STS}
-- see slides
+The AWS Security Token Service (STS) is a web service that enables you to request temporary, limited-
+privilege credentials for IAM users or for users that you authenticate (federated users).
 
+By default, AWS STS is available as a global service, and all AWS STS requests go to a single endpoint
+at https://sts.amazonaws.com.
+
+You can optionally send your AWS STS requests to endpoints in any region (can reduce latency).
+
+All regions are enabled for STS by default but can be disabled.
+
+The region in which temporary credentials are requested must be enabled.
+
+Credentials will always work globally.
+
+STS supports AWS CloudTrail, which records AWS calls for your AWS account and delivers log files to an S3 bucket.
+
+Temporary security credentials work almost identically to long-term access key credentials that IAM
+users can use, with the following differences:
+  - Temporary security credentials are short-term.
+  - They can be configured to last anywhere from a few minutes to several hours.
+  - After the credentials expire, AWS no longer recognizes them or allows any kind of access to
+    API requests made with them.
+  - Temporary security credentials are not stored with the user but are generated dynamically
+    and provided to the user when requested.
+  - When (or even before) the temporary security credentials expire, the user can request new
+    credentials, as long as the user requesting them still has permission to do so.
+
+### Advantages of STS are:
+  - You do not have to distribute or embed long-term AWS security credentials with an application.
+  - You can provide access to your AWS resources to users without having to define an AWS
+    identity for them (temporary security credentials are the basis for IAM Roles and ID Federation).
+  - The temporary security credentials have a limited lifetime, so you do not have to rotate them
+    or explicitly revoke them when they’re no longer needed.
+  - After temporary security credentials expire, they cannot be reused (you can specify how long
+    the credentials are valid for, up to a maximum limit).
+
+### The AWS STS API action returns temporary security credentials that consist of:
+  - An access key which consists of an access key ID and a secret ID.
+  - A session token.
+  - Expiration or duration of validity.
+  - Users (or an application that the user runs) can use these credentials to access your resources.
+
+### With STS you can request a session token using one of the following APIs:
+  - AssumeRole – can only be used by IAM users (can be used for MFA).
+  - AssumeRoleWithSAML – can be used by any user who passes a SAML authentication
+    response that indicates authentication from a known (trusted) identity provider.
+  - AssumeRoleWithWebIdentity – can be used by an user who passes a web identity token that
+    indicates authentication from a known (trusted) identity provider.
+  - GetSessionToken – can be used by an IAM user or AWS account root user (can be used for MFA).
+  - GetFederationToken – can be used by an IAM user or AWS account root user. 
+
+
+AWS recommends using Cognito for identity federation with Internet identity providers.
+Users can come from three sources.
+
+### Federation (typically AD):
+  - Uses SAML 2.0.
+  - Grants temporary access based on the users AD credentials.
+  - Does not need to be a user in IAM.
+  - Single sign-on allows users to login to the AWS console without assigning IAM credentials.
+
+### Federation with Mobile Apps:
+  - Use Facebook/Amazon/Google or other OpenID providers to login.
+
+### Cross Account Access:
+  - Lets users from one AWS account access resources in another.
+  - To make a request in a different account the resource in that account must have an attached
+  resource-based policy with the permissions you need.
+  - Or you must assume a role (identity-based policy) within that account with the permissions you need.
+
+## There are a couple of ways STS can be used.
+  - Scenario 1:
+    - Develop an Identity Broker to communicate with LDAP and AWS STS.
+    - Identity Broker always authenticates with LDAP first, then with AWS STS.
+    - Application then gets temporary access to AWS resources.
+  
+  - Scenario 2:
+    - Develop an Identity Broker to communicate with LDAP and AWS STS.
+    - Identity Broker authenticates with LDAP first, then gets an IAM role associated with the user.
+    - Application then authenticates with STS and assumes that IAM role.
+    - Application uses that IAM role to interact with the service.
+
+## Access Keys:
+  - A combination of an access key ID and a secret access key.
+  - You can assign two active access keys to a user at a time.
+  - These can be used to make programmatic calls to AWS when using the API in program code or at a command prompt when using the AWS CLI or the AWS PowerShell tools.
+  - You can create, modify, view or rotate access keys.
+  - When created IAM returns the access key ID and secret access key.
+  - The secret access is returned only at creation time and if lost a new key must be created.
+  - Ensure access keys and secret access keys are stored securely.
+  - Users can be given access to change their own keys through IAM policy (not from the console).
+  - You can disable a user’s access key which prevents it from being used for API calls.
+
+
+## Server certificates:
+  - SSL/TLS certificates that you can use to authenticate with some AWS services.
+  - AWS recommends that you use the AWS Certificate Manager (ACM) to provision, manage and deploy your server certificates.
+  - Use IAM only when you must support HTTPS connections in a region that is not supported y ACM.
+
+The following diagram shows the different methods of authentication available with IAM:
+
+<img src="./images/aws_certification.png" title="aws_certification"></img>
 
 ## IAM Best Practices
 - Lock away the AWS root user access keys
@@ -948,7 +1434,6 @@ Identity Federation
 # Section 7: AWS Storage
 
 - Object, Block, and File Storage
-
 - Object - S3
 - Block - EBS
 - File - File
@@ -974,6 +1459,27 @@ Identity Federation
 
 ## S3
 - upload objects {files, pix, etc} into buckets
+- Buckets
+    - A bucket is a container for objects stored in Amazon S3. 
+    - You can store any number of objects in a bucket and can have up to 100 buckets in your account. 
+    - To request an increase, visit the Service Quotas Console.
+- Objects
+    - Objects are the fundamental entities stored in Amazon S3. 
+    - Objects consist of object data and metadata.
+    - The metadata is a set of name-value pairs that describe the object. 
+    - These pairs include some default metadata, such as the date last modified, and standard HTTP metadata, such as Content-Type. 
+    - You can also specify custom metadata at the time that the object is stored.   
+    - An object is uniquely identified within a bucket by a key (name)
+ - Keys
+    - An object key (or key name) is the unique identifier for an object within a bucket. 
+    - Every object in a bucket has exactly one key. 
+    - The combination of a bucket, object key, and optionally, version ID (if S3 Versioning is enabled for the bucket) uniquely identify each object. 
+    - So you can think of Amazon S3 as a basic data map between "bucket + key + version" and the object itself.   
+ - S3 Versioning
+    - You can use S3 Versioning to keep multiple variants of an object in the same bucket. 
+    - With S3 Versioning, you can preserve, retrieve, and restore every version of every object stored in your buckets. 
+    - You can easily recover from both unintended user actions and application failures.   
+
 
 # Section 8: AWS NETWORKING
 
@@ -1050,7 +1556,7 @@ Identity Federation
       - S3
         - class type
         - quantity
-        - # of requests
+        - of requests
         - moving data between storage classes
       - S3 Glacier
       - EBS
