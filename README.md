@@ -182,6 +182,27 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
 -  Segurança
 -  Ambientes sem servidor
 
+# Sugestão de Guia de Estudos (Comprar os dois Cursos Abaixo)
+  ## Author (https://www.udemy.com/user/stephane-maarek/)
+  ## Estudos Dirigido
+    https://www.udemy.com/course/aws-certified-developer-associate-dva-c01/
+    Become an AWS Certified Developer! Learn all Amazon Web Services Developer topics. PASS the AWS Certified Developer Exam-
+      - Este curso inclui:
+      - 32 horas de vídeo sob demanda
+      - 7 artigos
+      - 2 simulados
+      - Acesso total vitalício
+      - Acesso no dispositivo móvel e na TV
+      - Certificado de conclusão
+
+  ## Resolução de Questões
+    https://www.udemy.com/course/aws-certified-developer-associate-practice-tests-dva-c01/
+    
+    - Practice Exams | AWS Certified Developer Associate 2021
+    - 325 Test Quiz Questions on DVA-C01 ! Practice the AWS Certified Developer Exam & ace the AWS Certified Developer Exam!
+    - 6 Simulados
+
+
 # Recursos e produtos da AWS Análise:
 -  Amazon Elasticsearch Service (Amazon ES)
 -  Amazon Kinesis 
@@ -259,6 +280,15 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
         - Secure
             - With AWS CodeBuild, your build artifacts are encrypted with customer-specific keys that are managed by the AWS Key Management Service (KMS).
             - CodeBuild is integrated with AWS Identity and Access Management (IAM), so you can assign user-specific permissions to your build projects.
+    - ### Resources
+      -  Enable CodeBuild timeouts
+        - A build represents a set of actions performed by AWS CodeBuild to create output artifacts (for example, a JAR file) based on a set of input artifacts (for example, a collection of Java class files).
+        -The following rules apply when you run multiple builds:
+          - When possible, builds run concurrently. The maximum number of concurrently running builds can vary.
+          - Builds are queued if the number of concurrently running builds reaches its limit. The maximum number of builds in a queue is five times the concurrent build limit.
+          - A build in a queue that does not start after the number of minutes specified in its time out value is removed from the queue. 
+          - The default timeout value is eight hours. You can override the build queue timeout with a value between five minutes and eight hours when you run your build.
+          -By setting the timeout configuration, the build process will automatically terminate post the expiry of the configured timeout.
 
 
 ##  AWS CodeCommit
@@ -369,6 +399,11 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
 -  Amazon Cognito
 -  AWS Identity and Access Management (IAM)
 -  AWS Key Management Service (AWS KMS)
+  - KMS stores the CMK, and receives data from the clients, which it encrypts and sends back
+  - A customer master key (CMK) is a logical representation of a master key. The CMK includes metadata, such as the key ID, creation date, description, and key state. The CMK also contains the key material used to encrypt and decrypt data. You can generate CMKs in KMS, in an AWS CloudHSM cluster, or import them from your key management infrastructure.
+  - AWS KMS supports symmetric and asymmetric CMKs. A symmetric CMK represents a 256-bit key that is used for encryption and decryption. An asymmetric CMK    represents an RSA key pair that is used for encryption and decryption or signing and verification (but not both), or an elliptic curve (ECC) key pair that is used for signing and verification.
+  - AWS KMS supports three types of CMKs: customer-managed CMKs, AWS managed CMKs, and AWS owned CMKs.
+  - !Ref={https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys}
 
 # Storage:
 ## STORAGE CONCEPTS
@@ -1265,6 +1300,40 @@ used to make AWS API calls.
   - Trust policies define which principal entities (accounts, users, roles, and federated users) can assume the role. An IAM role is both an identity and a resource that supports resource-based policies. For this reason, you must attach both a trust policy and an identity-based policy to an IAM role. The IAM service supports only one type of resource-based policy called a role trust policy, which is attached to an IAM role.
   - !Ref={https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_boundaries.html}
 
+- IAM policy variables !Ref={https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_variables.html}
+  - Instead of creating individual policies for each user, you can use policy variables and create a single policy that applies to multiple users (a group policy). 
+  - Policy variables act as placeholders. When you make a request to AWS, the placeholder is replaced by a value from the request when the policy is evaluated.
+  - As an example, the following policy gives each of the users in the group full programmatic access to a user-specific object (their own "home directory") in Amazon S3.
+ ```
+    {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": ["s3:ListBucket"],
+        "Effect": "Allow",
+        "Resource": ["arn:aws:s3:::mybucket"],
+        "Condition": {"StringLike": {"s3:prefix": ["${aws:username}/*"]}}
+      },
+      {
+        "Action": [
+          "s3:GetObject",
+          "s3:PutObject"
+        ],
+        "Effect": "Allow",
+        "Resource": ["arn:aws:s3:::mybucket/${aws:username}/*"]
+      }
+    ]
+  }
+  ```
+
+- IAM policy principal - You can use the Principal element in a policy to specify the principal that is allowed or denied access to a resource (In IAM, a principal is a person or application that can make a request for an action or operation on an AWS resource. The principal is authenticated as the AWS account root user or an IAM entity to make requests to AWS). You cannot use the Principal element in an IAM identity-based policy. You can use it in the trust policies for IAM roles and in resource-based policies.
+
+- IAM policy condition - The Condition element (or Condition block) lets you specify conditions for when a policy is in effect, like so - "Condition" : { "StringEquals" : { "aws:username" : "johndoe" }}. This can not be used to address the requirements of the given use-case.
+
+- IAM policy resource - The Resource element specifies the object or objects that the statement covers. You specify a resource using an ARN. This can not be used to address the requirements of the given use-case.
+
+- !Ref={https://aws.amazon.com/blogs/security/writing-iam-policies-grant-access-to-user-specific-folders-in-an-amazon-s3-bucket/}
+
 ## IAM Authentication Methods
 - external, eg, MS Active Directory
 - API : need an access key id & secret access key, eg, command line, SDKs
@@ -1393,10 +1462,17 @@ Users can come from three sources.
   - SSL/TLS certificates that you can use to authenticate with some AWS services.
   - AWS recommends that you use the AWS Certificate Manager (ACM) to provision, manage and deploy your server certificates.
   - Use IAM only when you must support HTTPS connections in a region that is not supported y ACM.
+  - AWS Certificate Manager - AWS Certificate Manager (ACM) is the preferred tool to provision, manage, and deploy server certificates. With ACM you can request a certificate or deploy an existing ACM or external certificate to AWS resources. Certificates provided by ACM are free and automatically renew. In a supported Region, you can use ACM to manage server certificates from the console or programmatically.
+  - IAM - IAM is used as a certificate manager only when you must support HTTPS connections in a Region that is not supported by ACM. IAM securely encrypts your private keys and stores the encrypted version in IAM SSL certificate storage. IAM supports deploying server certificates in all Regions, but you must obtain your certificate from an external provider for use with AWS. You cannot upload an ACM certificate to IAM. Additionally, you cannot manage your certificates from the IAM Console.
+  - !Ref={https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_server-certs.html}
 
 The following diagram shows the different methods of authentication available with IAM:
 
 <img src="./images/aws_certification.png" title="aws_certification"></img>
+
+## Access Advisor feature 
+- <b><i>Access Advisor feature on IAM console </i></b> - To help identify the unused roles, IAM reports the last-used timestamp that represents when a role was last used to  make an AWS request. Your security team can use this information to identify, analyze, and then confidently remove unused roles. This helps improve the security posture of your AWS environments. Additionally, by removing unused roles, you can simplify your monitoring and auditing efforts by focusing only on roles that are in use.
+- !Ref={https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_access-advisor-view-data.html}
 
 ## IAM Best Practices
 - Lock away the AWS root user access keys
@@ -1544,6 +1620,17 @@ The following diagram shows the different methods of authentication available wi
         - ### Note 
           - For WebSocket APIs, only request parameter-based authorizers are supported.
 
+  - AWS Serverless Application Repository (SAR) 
+    - The AWS Serverless Application Repository is a managed repository for serverless applications. It enables teams, organizations, and individual developers to store and share reusable applications, and easily assemble and deploy serverless architectures in powerful new ways. Using the Serverless Application Repository, you don't need to clone, build, package, or publish source code to AWS before deploying it. Instead, you can use pre-built applications from the Serverless Application Repository in your serverless architectures, helping you and your teams reduce duplicated work, ensure organizational best practices, and get to market faster. Integration with AWS Identity and Access Management (IAM) provides resource-level control of each application, enabling you to publicly share applications with everyone or privately share them with specific AWS accounts.
+    - !Ref = {https://aws.amazon.com/serverless/serverlessrepo/}
+
+  - Configuring function memory from AWS console: 
+    - Deploy the function with its memory allocation set to the maximum amount - Lambda allocates CPU power in proportion to the amount of memory configured. - - Memory is the amount of memory available to your Lambda function at runtime. 
+    - You can increase or decrease the memory and CPU power allocated to your function using the Memory (MB) setting. 
+    - To configure the memory for your function, set a value between 128 MB and 10,240 MB in 1-MB increments. 
+    - At 1,769 MB, a function has the equivalent of one vCPU (one vCPU-second of credits per second).
+    - !Ref={ https://docs.aws.amazon.com/lambda/latest/dg/configuration-memory.html } 
+    - !Ref={ https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html }
 
 
 - LIGHTSAIL
@@ -1571,6 +1658,27 @@ The following diagram shows the different methods of authentication available wi
 - object stored in buckets
 - REST API to connect - get, put, post, delete
 - referenced via URL
+- Object permission to any requests that do not include 
+This bucket policy denies upload object (s3:PutObject) permission if the request does not include the x-amz-server-side-encryption header requesting server-side encryption with SSE-KMS. To ensure that a particular AWS KMS CMK be used to encrypt the objects in a bucket, you can use the s3:x-amz-server-side-encryption-aws-kms-key-id condition key. To specify the AWS KMS CMK, you must use a key Amazon Resource Name (ARN) that is in the "arn:aws:kms:region:acct-id:key/key-id" format.
+```
+{ "Version":"2012-10-17", 
+  "Id":"PutObjectPolicy", 
+  "Statement":[{ 
+    "Sid":"DenyUnEncryptedObjectUploads", 
+    "Effect":"Deny", 
+    "Principal":"", 
+    "Action":"s3:PutObject", 
+    "Resource":"arn:aws:s3:::examplebucket/", 
+    "Condition":{ 
+      "StringNotEquals":{ 
+        "s3:x-amz-server-side-encryption":"aws:kms" 
+        } 
+      } 
+  }] 
+}
+```
+- When you upload an object, you can specify the AWS KMS CMK using the x-amz-server-side-encryption-aws-kms-key-id header. If the header is not present in the request, Amazon S3 assumes the AWS-managed CMK.
+- !Ref={https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html}
 
 ## EBS
 - only 1 that can be used as a boot
@@ -1666,6 +1774,20 @@ The following diagram shows the different methods of authentication available wi
 
 - Questions
   - missed What sac can be used to automatically create an Amazon VPC & then launch an EC2 instance.... : Correct answer : CLoudWatch
+
+- Deploy using 'Rolling with additional batch' deployment policy
+  - AWS Elastic Beanstalk offers several deployment policies and settings. Choosing the right deployment policy for your application is a tradeoff based on a few considerations and depends on your business needs.
+  - !Ref={https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.deploy-existing-version.html}
+
+- <b>The deployment was either run with immutable updates or in traffic splitting mode </b>- Immutable deployments perform an immutable update to launch a full set of new instances running the new version of the application in a separate Auto Scaling group, alongside the instances running the old version. Immutable deployments can prevent issues caused by partially completed rolling deployments.
+
+- Traffic-splitting deployments let you perform canary testing as part of your application deployment. In a traffic-splitting deployment, Elastic Beanstalk launches a full set of new instances just like during an immutable deployment. It then forwards a specified percentage of incoming client traffic to the new application version for a specified evaluation period.
+- Some policies replace all instances during the deployment or update. This causes all accumulated Amazon EC2 burst balances to be lost. It happens in the following cases:
+  - Managed platform updates with instance replacement enabled
+  - Immutable updates
+  - Deployments with immutable updates or traffic splitting enabled
+  - !Ref={https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.rolling-version-deploy.html}
+
 
 # Section 14: AWS Migration & Transfer Services
 
@@ -1822,7 +1944,15 @@ The following diagram shows the different methods of authentication available wi
 - CreateQueue !Ref={https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_CreateQueue.html}
 - You can't change the queue type after you create it - You can't change the queue type after you create it and you can't convert an existing standard queue into a FIFO queue. You must either create a new FIFO queue for your application or delete your existing standard queue and recreate it as a FIFO queue.
 
-- The visibility timeout value for the queue is in seconds, which defaults to 30 seconds - The visibility timeout for the queue is in seconds. Valid values are: An integer from 0 to 43,200 (12 hours), the Default value is 30
+- The visibility timeout value for the queue is in seconds, which defaults to 30 seconds - The visibility timeout for the queue is in seconds. Valid values are: An integer from 0 to 43,200 (12 hours), the Default value is 30.
+
+### Delete Queue
+- DeleteQueue - Deletes the queue specified by the QueueUrl, regardless of the queue's contents. When you delete a queue, any messages in the queue are no longer available.
+- When you delete a queue, the deletion process takes up to 60 seconds. Requests you send involving that queue during the 60 seconds might succeed. For example, a SendMessage request might succeed, but after 60 seconds the queue and the message you sent no longer exist.
+- When you delete a queue, you must wait at least 60 seconds before creating a queue with the same name.
+- PurgeQueue - Deletes the messages in a queue specified by the QueueURL parameter. When you use the PurgeQueue action, you can't retrieve any messages deleted from a queue. The queue however remains.
+- RemovePermission - Revokes any permissions in the queue policy that matches the specified Label parameter.
+-!Ref={https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_RemovePermission.html}
 
 
 # Sectin 23: (Contêineres:)
@@ -1838,6 +1968,88 @@ The following diagram shows the different methods of authentication available wi
 - You cannot use ECS to store and deploy Docker images.
 - !Ref={https://docs.aws.amazon.com/AmazonECS/latest/developerguide/Welcome.html}
 
+# Sectin 24: (AWS: Cognito)
+- "Cognito User Pools"
+  - After successful authentication, Amazon Cognito returns user pool tokens to your app. You can use the tokens to grant your users access to your own server-side resources, or to the Amazon API Gateway.
+  - Amazon Cognito user pools implement ID, access, and refresh tokens as defined by the OpenID Connect (OIDC) open standard.
+  - The ID token is a JSON Web Token (JWT) that contains claims about the identity of the authenticated user such as name, email, and phone_number. You can use this identity information inside your application. The ID token can also be used to authenticate users against your resource servers or server applications.
+  - "Cognito Identity Pools" - You can use Identity pools to grant your users access to other AWS services. With an identity pool, your users can obtain temporary AWS credentials to access AWS services, such as Amazon S3 and DynamoDB. Identity pools support anonymous guest users, as well as the specific identity providers that you can use to authenticate users for identity pools.
+  - "Cognito Sync" - Amazon Cognito Sync is an AWS service and client library that enables cross-device syncing of application-related user data. You can use it to synchronize user profile data across mobile devices and the web without requiring your own backend.
+
+  ## Exam Alert:
+  - Review the following note to understand the differences between Cognito User Pools and Cognito Identity Pools:
+
+- !Ref={https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html}
+- !Ref={https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html} 
+
+
+# Sectin 25: (AWS: AWS Cloud Development Kit)
+  - AWS Cloud Development Kit (CDK) - The AWS Cloud Development Kit (AWS CDK) is an open-source software development framework to define your cloud application resources using familiar programming languages.
+  - Provisioning cloud applications can be a challenging process that requires you to perform manual actions, write custom scripts, maintain templates, or learn domain-specific languages. AWS CDK uses the familiarity and expressive power of programming languages such as JavaScript/TypeScript, Python, Java, and .NET for modeling your applications. 
+  - It provides you with high-level components called constructs that preconfigure cloud resources with proven defaults, so you can build cloud applications without needing to be an expert. AWS CDK provisions your resources in a safe, repeatable manner through AWS CloudFormation. It also enables you to compose and share your own custom constructs that incorporate your organization's requirements, helping you start new projects faster.
+  - !Ref={https://aws.amazon.com/cdk/faqs/}
+
+  - Step Creation AWS CDK
+    - Create the app from a template provided by AWS CDK -> Add code to the app to create resources within stacks -> Build the app (optional) -> Synthesize one or more stacks in the app -> Deploy stack(s) to your AWS account
+    The standard AWS CDK development workflow is similar to the workflow you're already familiar as a developer. There are a few extra steps:
+
+    - 1. Create the app from a template provided by AWS CDK - Each AWS CDK app should be in its own directory, with its own local module dependencies. Create a new directory for your app. Now initialize the app using the cdk init command, specifying the desired template ("app") and programming language. The cdk init command creates a number of files and folders inside the created home directory to help you organize the source code for your AWS CDK app.
+
+    - 2. Add code to the app to create resources within stacks - Add custom code as is needed for your application.
+
+    - 3. Build the app (optional) - In most programming environments, after making changes to your code, you'd build (compile) it. This isn't strictly necessary with the AWS CDK—the Toolkit does it for you so you can't forget. But you can still build manually whenever you want to catch syntax and type errors.
+
+    - 4. Synthesize one or more stacks in the app to create an AWS CloudFormation template - Synthesize one or more stacks in the app to create an AWS CloudFormation template. The synthesis step catches logical errors in defining your AWS resources. If your app contains more than one stack, you'd need to specify which stack(s) to synthesize.
+
+    - 5. Deploy one or more stacks to your AWS account - It is optional (though good practice) to synthesize before deploying. The AWS CDK synthesizes your stack before each deployment. If your code has security implications, you'll see a summary of these and need to confirm them before deployment proceeds. cdk deploy is used to deploy the stack using CloudFormation templates. This command displays progress information as your stack is deployed. When it's done, the command prompt reappears.
+
+
+# Sectin 26: (EC2 Auto Scaling)
+  - <b>Auto Scaling groups that span across multiple Regions need to be enabled for all the Regions specified </b> 
+    - This is not valid for Auto Scaling groups. Auto Scaling groups cannot span across multiple Regions.
+
+  - <b>An Auto Scaling group can contain EC2 instances in only one Availability Zone of a Region </b> 
+    - This is not valid for Auto Scaling groups. An Auto Scaling group can contain EC2 instances in one or more Availability Zones within the same Region.
+
+  - Amazon EC2 Auto Scaling Overview:
+    - !Ref={https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html}
+
+  - References
+    - !Ref={https://docs.aws.amazon.com/autoscaling/ec2/userguide/auto-scaling-benefits.html}
+    - !Ref={https://docs.aws.amazon.com/autoscaling/ec2/userguide/what-is-amazon-ec2-auto-scaling.html}
+
+  - ### Detailed Monitoring
+    - !Ref={https://docs.aws.amazon.com/autoscaling/ec2/userguide/enable-as-instance-metrics.html}
+
+
+
+# Sectin 27: ELB (Elastic Load Balancing)
+  - <b>ALB access logs </b> - Elastic Load Balancing provides access logs that capture detailed information about requests sent to your load balancer. Each log contains information such as the time the request was received, the client's IP address, latencies, request paths, and server responses. You can use these access logs to analyze traffic patterns and troubleshoot issues. Access logging is an optional feature of Elastic Load Balancing that is disabled by default.
+
+  - Access logs for your Application Load Balancer:
+    - !Ref={https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html}
+    - !Ref={https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-monitoring.html}
+    - !Ref={https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-access-logs.html}
+
+
+# Sectin 28: (AWS: Kinesis Firehose)
+  - Amazon Kinesis Data Firehose is a fully managed service for delivering real-time streaming data to destinations such as Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon Elasticsearch Service (Amazon ES), and Splunk. 
+  - With Kinesis Data Firehose, you don't need to write applications or manage resources. 
+  - You configure your data producers to send data to Kinesis Data Firehose, and it automatically delivers the data to the destination that you specified.
+
+  ### Note
+    - Amazon ElastiCache with Amazon S3 as backup - Amazon ElastiCache is a fully managed in-memory data store, compatible with Redis or Memcached. 
+    - ElastiCache is NOT a supported destination for Amazon Kinesis Data Firehose</b>.
+  
+  - Amazon Elasticsearch Service (Amazon ES) with optionally backing up data to Amazon S3 - Amazon ES is a supported destination type for Kinesis Firehose. - Streaming data is delivered to your Amazon ES cluster, and can optionally be backed up to your S3 bucket concurrently.
+    - !Ref={https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html}
+
+  - Amazon Simple Storage Service (Amazon S3) as a direct Firehose destination - For Amazon S3 destinations, streaming data is delivered to your S3 bucket. If data transformation is enabled, you can optionally back up source data to another Amazon S3 bucket.
+    - !Ref={https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html}
+
+  - Amazon Redshift with Amazon S3 - For Amazon Redshift destinations, streaming data is delivered to your S3 bucket first. Kinesis Data Firehose then issues an Amazon Redshift COPY command to load data from your S3 bucket to your Amazon Redshift cluster. If data transformation is enabled, you can optionally back up source data to another Amazon S3 bucket.
+    - !Ref={https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html}
+    - !Ref={https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html}
 
 
 # Others 
@@ -1993,8 +2205,45 @@ The following diagram shows the different methods of authentication available wi
       - up to 90% 
       - good for no time commitment serverless applications, big data calls
       - auction / bid to obtain - can go away at any time {2 minute notice}
+      - ### configured as an interruption
+        - A Spot Instance is an unused EC2 instance that is available for less than the On-Demand price. Your Spot Instance runs whenever capacity is available - and the maximum price per hour for your request exceeds the Spot price. Any instance present with unused capacity will be allocated.
+        - You can specify that Amazon EC2 should do one of the following when it interrupts a Spot Instance:
+          - Stop the Spot Instance
+          - Hibernate the Spot Instance
+          - Terminate the Spot Instance
+          - The default is to terminate Spot Instances when they are interrupted.
+          - <b>Reboot the Spot Instance - This is an invalid option.</b>
+        - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html}
+
   - Burstable performance instances
     - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html}
+  
+  - Start Machine EC2
+    ### Correct options:
+    - User Data is generally used to perform common automated configuration tasks and even run scripts after the instance starts. When you launch an instance in - Amazon EC2, you can pass two types of user data - shell scripts and cloud-init directives. You can also pass this data into the launch wizard as plain text or as a file.
+    - By default, scripts entered as user data are executed with root user privileges - Scripts entered as user data are executed as the root user, hence do not need the sudo command in the script. Any files you create will be owned by root; if you need non-root users to have file access, you should modify the permissions accordingly in the script.
+    - By default, user data runs only during the boot cycle when you first launch an instance - By default, user data scripts and cloud-init directives run only during the boot cycle when you first launch an instance. You can update your configuration to ensure that your user data scripts and cloud-init directives run every time you restart your instance.
+
+    ### Incorrect options:
+    - By default, user data is executed every time an EC2 instance is re-started - As discussed above, this is not a default configuration of the system. But, can be achieved by explicitly configuring the instance.
+    - When an instance is running, you can update user data by using root user credentials - You can't change the user data if the instance is running (even by using root user credentials), but you can view it.
+    - By default, scripts entered as user data do not have root user privileges for executing - Scripts entered as user data are executed as the root user, hence do not need the sudo command in the script.
+    - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html}
+
+    ### Dedicated Instances 
+      - Dedicated Instances are Amazon EC2 instances that run in a virtual private cloud (VPC) on hardware that's dedicated to a single customer. Dedicated Instances that belong to different AWS accounts are physically isolated at a hardware level, even if those accounts are linked to a single-payer account. However, Dedicated Instances may share hardware with other instances from the same AWS account that are not Dedicated Instances.
+
+      - A Dedicated Host is also a physical server that's dedicated for your use. With a Dedicated Host, you have visibility and control over how instances are placed on the server.
+
+      - Differences between Dedicated Hosts and Dedicated Instances:
+        - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-hosts-overview.html#dedicated-hosts-dedicated-instances}
+
+      - References: 
+        - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html}
+        - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html}
+        
+
+
 
 
 # Data Storage Options
@@ -2240,6 +2489,20 @@ The following diagram shows the different methods of authentication available wi
 - encrypts all data by default
 - integrates w/ IAM
 - easily replicates tables across multiple AWS Regions
+- Backup 
+  - Use AWS Data Pipeline to export your table to an S3 bucket in the account of your choice and download locally 
+  - This is the easiest method. This method is used when you want to make a one-time backup using the lowest amount of AWS resources possible. 
+  - Data Pipeline uses Amazon EMR to create the backup, and the scripting is done for you. 
+  - You don't have to learn Apache Hive or Apache Spark to accomplish this task.
+
+  - Use Hive with Amazon EMR to export your data to an S3 bucket and download locally - Use Hive to export data to an S3 bucket. Or, use the open-source emr-dynamodb-connector to manage your own custom backup method in Spark or Hive. These methods are the best practice to use if you're an active Amazon EMR user and are comfortable with Hive or Spark. These methods offer more control than the Data Pipeline method.
+
+  - Use AWS Glue to copy your table to Amazon S3 and download locally - Use AWS Glue to copy your table to Amazon S3. This is the best practice to use if you want automated, continuous backups that you can also use in another service, such as Amazon Athena.
+  - Reference
+    - !Ref={https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/BackupRestore.html}
+    - !Ref={https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-importexport-ddb-part1.html}
+    - !Ref={https://docs.aws.amazon.com/emr/latest/ReleaseGuide/EMR_Hive_Commands.html#EMR_Hive_Commands_exporting}
+    - !Ref={https://aws.amazon.com/blogs/big-data/how-to-export-an-amazon-dynamodb-table-to-amazon-s3-using-aws-step-functions-and-aws-glue/}
 
 
 ## DocumentDB
@@ -2329,7 +2592,67 @@ The following diagram shows the different methods of authentication available wi
     - You can't delete a stack if another stack references one of its outputs.
     - You can't modify or remove an output value that is referenced by another stack.
 
-  
+- ### Template Anatomy
+  - A template is a JSON- or YAML-formatted text file that describes your AWS infrastructure. The following examples show an AWS CloudFormation template structure and its sections.
+  ```
+  {
+    "AWSTemplateFormatVersion" : "version date",
+    "Description" : "JSON string",
+    "Metadata" : {
+      template metadata
+    },
+    "Parameters" : {
+      set of parameters
+    },
+    "Rules" : {
+      set of rules
+    },
+    "Mappings" : {
+      set of mappings
+    },
+    "Conditions" : {
+      set of conditions
+    },
+    "Transform" : {
+      set of transforms
+    },
+    "Resources" : {
+      set of resources
+    },
+    "Outputs" : {
+      set of outputs
+    }
+  }
+  ```
+  - !Ref={https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html}
+
+
+  ### CloudFormation Transform
+  - AWS CloudFormation template is a JSON- or YAML-formatted text file that describes your AWS infrastructure. Templates include several major sections. 
+  - The "Resources" section is the only required section. 
+  - The optional "Transform" section specifies one or more macros that AWS CloudFormation uses to process your template.
+  - The AWS Serverless Application Model (SAM) is an open-source framework for building serverless applications. 
+  - It provides shorthand syntax to express functions, APIs, databases, and event source mappings. 
+  - With just a few lines per resource, you can define the application you want and model it using YAML.
+  - Presence of 'Transform' section indicates it is a Serverless Application Model (SAM) template - The AWS::Serverless transform, which is a macro hosted by   AWS CloudFormation, takes an entire template written in the AWS Serverless Application Model (AWS SAM) syntax and transforms and expands it into a compliant AWS CloudFormation template. 
+  - So, presence of "Transform" section indicates, the document is a SAM template.
+
+  ### CloudFormation currently supports the following parameter types:
+  ```
+    String – A literal string
+    Number – An integer or float
+    List<Number> – An array of integers or floats
+    CommaDelimitedList – An array of literal strings that are separated by commas
+    AWS::EC2::KeyPair::KeyName – An Amazon EC2 key pair name
+    AWS::EC2::SecurityGroup::Id – A security group ID
+    AWS::EC2::Subnet::Id – A subnet ID
+    AWS::EC2::VPC::Id – A VPC ID
+    List<AWS::EC2::VPC::Id> – An array of VPC IDs
+    List<AWS::EC2::SecurityGroup::Id> – An array of security group IDs
+    List<AWS::EC2::Subnet::Id> – An array of subnet IDs
+  ```
+  - !Ref={https://aws.amazon.com/blogs/devops/using-the-new-cloudformation-parameter-types/}
+
 
 
 
