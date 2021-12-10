@@ -289,6 +289,11 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
           - A build in a queue that does not start after the number of minutes specified in its time out value is removed from the queue. 
           - The default timeout value is eight hours. You can override the build queue timeout with a value between five minutes and eight hours when you run your build.
           -By setting the timeout configuration, the build process will automatically terminate post the expiry of the configured timeout.
+    - Logs 
+    <b>Enable S3 and CloudWatch Logs integration </b> - AWS CodeBuild monitors functions on your behalf and reports metrics through Amazon CloudWatch. These metrics include the number of total builds, failed builds, successful builds, and the duration of builds. You can monitor your builds at two levels: Project level, AWS account level. You can export log data from your log groups to an Amazon S3 bucket and use this data in custom processing and analysis, or to load onto other systems.
+    - !Ref={https://docs.aws.amazon.com/codebuild/latest/userguide/monitoring-metrics.html}
+
+
 
 
 ##  AWS CodeCommit
@@ -332,9 +337,41 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
 - AWS CodeDeploy is a deployment service that automates application deployments to Amazon EC2 instances, on-premises instances, or serverless Lambda functions. 
 - The blue/green deployment type uses the blue/green deployment model controlled by CodeDeploy. 
   - !Ref={https://aws.amazon.com/about-aws/whats-new/2017/01/aws-codedeploy-introduces-blue-green-deployments/}
+
 - This deployment type enables you to verify a new deployment of service before sending production traffic to it.
 - CodeDeploy offers lot of control over deployment steps. Please see this note for more details:
   - !Ref={https://docs.amazonaws.cn/en_us/codedeploy/latest/userguide/deployment-configurations.html}
+
+  ### Roll Back
+    - AWS CodeDeploy is a fully managed deployment service that automates software deployments to a variety of compute services such as Amazon EC2, AWS Fargate, AWS Lambda, and your on-premises servers. AWS CodeDeploy makes it easier for you to rapidly release new features, helps you avoid downtime during application deployment, and handles the complexity of updating your applications.
+
+    - To the failed instances: AWS CodeDeploy rolls back deployments by redeploying a previously deployed revision of an application as a new deployment on the failed instances.
+
+    -!Ref={https://docs.aws.amazon.com/codedeploy/latest/userguide/deployments-rollback-and-redeploy.html}
+  
+  ### LifeCycle Event Hook Availability
+    - AWS CodeDeploy is a fully managed deployment service that automates software deployments to a variety of compute services such as Amazon EC2, AWS Fargate, AWS Lambda, and your on-premises servers. AWS CodeDeploy makes it easier for you to rapidly release new features, helps you avoid downtime during application deployment, and handles the complexity of updating your applications.
+
+    - An EC2/On-Premises deployment hook is executed once per deployment to an instance. You can specify one or more scripts to run in a hook.
+    - ValidateService: ValidateService is the last deployment lifecycle event. It is used to verify the deployment was completed successfully.
+    - !Ref={https://docs.aws.amazon.com/codedeploy/latest/userguide/reference-appspec-file-structure-hooks.html#reference-appspec-file-structure-hooks-run-order}
+
+  ### CodeDeploy application specification (AppSpec) files
+    - !Ref={https://docs.aws.amazon.com/codedeploy/latest/userguide/application-specification-files.html}
+    
+    Define an appspec.yml file in the root directory: An AppSpec file must be a YAML-formatted file named appspec.yml and it must be placed in the root of the directory structure of an application's source code.
+
+    The AppSpec file is used to:
+      - Map the source files in your application revision to their destinations on the instance.
+      - Specify custom permissions for deployed files.
+      - Specify scripts to be run on each instance at various stages of the deployment process.
+      - During deployment, the CodeDeploy agent looks up the name of the current event in the hooks section of the AppSpec file. If the event is not found, the CodeDeploy agent moves on to the next step. If the event is found, the CodeDeploy agent retrieves the list of scripts to execute. The scripts are run sequentially, in the order in which they appear in the file. The status of each script is logged in the CodeDeploy agent log file on the instance.
+      - If a script runs successfully, it returns an exit code of 0 (zero). If the CodeDeploy agent installed on the operating system doesn't match what's listed in the AppSpec file, the deployment fails.
+
+
+
+
+  
 
 ## CodeBuild 
 - CodeBuild - AWS CodeBuild is a fully managed continuous integration service that compiles source code, runs tests, and produces software packages that are ready to deploy. It cannot be used to deploy applications.
@@ -344,10 +381,25 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
 
 ##  AWS CodePipeline
 - CodePipeline automates the build, test, and deploy phases of your release process every time there is a code change. CodePipeline by itself cannot deploy applications.
- 
 
 ##  AWS CodeStar
 - AWS CodeStar
+
+
+## Continuous Integration and Delivery
+- Continuous integration is a DevOps software development practice where developers regularly merge their code changes into a central repository, after which automated builds and tests are run.
+
+- Continuous delivery is a software development practice where code changes are automatically prepared for a release to production. A pillar of modern application development, continuous delivery expands upon continuous integration by deploying all code changes to a testing environment and/or a production environment after the build stage.
+
+-  AWS CodeDeploy - AWS CodeDeploy is a fully managed "deployment" service that automates software deployments to a variety of compute services such as Amazon EC2, AWS Fargate, AWS Lambda, and your on-premises servers. AWS CodeDeploy makes it easier for you to rapidly release new features, helps you avoid downtime during application deployment, and handles the complexity of updating your applications. This is the right choice for the current use case.
+
+- !Ref={https://aws.amazon.com/codedeploy/}
+- !Ref={https://aws.amazon.com/codepipeline/}
+- !Ref={https://aws.amazon.com/codebuild/}
+- !Ref={https://aws.amazon.com/elasticbeanstalk/}
+- !Ref={https://aws.amazon.com/devops/continuous-delivery/}
+- !Ref={https://aws.amazon.com/devops/continuous-integration/}
+
 
 ##  AWS Fault Injection Simulator
 - AWS Fault Injection Simulator
@@ -385,6 +437,62 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
     - This enables you to publish data from various components of your application into a central account.
     !Ref={https://docs.aws.amazon.com/xray/latest/devguide/aws-xray.html}
 
+    ### Information Collected
+    - AWS X-Ray helps developers analyze and debug production, distributed applications, such as those built using a microservices architecture. With X-Ray, you can understand how your application and its underlying services are performing to identify and troubleshoot the root cause of performance issues and errors. X-Ray provides an end-to-end view of requests as they travel through your application, and shows a map of your application’s underlying components.
+    - !Ref={https://aws.amazon.com/xray/}
+    - Fix the IAM Role:
+      - Create an IAM role with write permissions and assign it to the resources running your application. You can use AWS Identity and Access Management (IAM) to grant X-Ray permissions to users and compute resources in your account. This should be one of the first places you start by checking that your permissions are properly configured before exploring other troubleshooting options.
+      - Here is an example of X-Ray Read-Only permissions via an IAM policy:
+      ```
+      {
+          "Version": "2012-10-17",
+          "Statement": [
+              {
+                  "Effect": "Allow",
+                  "Action": [
+                      "xray:GetSamplingRules",
+                      "xray:GetSamplingTargets",
+                      "xray:GetSamplingStatisticSummaries",
+                      "xray:BatchGetTraces",
+                      "xray:GetServiceGraph",
+                      "xray:GetTraceGraph",
+                      "xray:GetTraceSummaries",
+                      "xray:GetGroups",
+                      "xray:GetGroup"
+                  ],
+                  "Resource": [
+                      "*"
+                  ]
+              }
+          ]
+      }
+      ```
+      Another example of write permissions for using X-Ray via an IAM policy:
+      ```
+      {
+            "Version": "2012-10-17",
+            "Statement": [
+                {
+                    "Effect": "Allow",
+                    "Action": [
+                        "xray:PutTraceSegments",
+                        "xray:PutTelemetryRecords",
+                        "xray:GetSamplingRules",
+                        "xray:GetSamplingTargets",
+                        "xray:GetSamplingStatisticSummaries"
+                    ],
+                    "Resource": [
+                        "*"
+                    ]
+                }
+            ]
+        }
+      ```
+
+      !Ref={https://docs.aws.amazon.com/xray/latest/devguide/security_iam_troubleshoot.html}
+
+
+
 
 # Gerenciamento e governança:
 -  AWS CloudFormation
@@ -404,6 +512,60 @@ ordem e colocação delas na lista não são indicativos de importância nem de 
   - AWS KMS supports symmetric and asymmetric CMKs. A symmetric CMK represents a 256-bit key that is used for encryption and decryption. An asymmetric CMK    represents an RSA key pair that is used for encryption and decryption or signing and verification (but not both), or an elliptic curve (ECC) key pair that is used for signing and verification.
   - AWS KMS supports three types of CMKs: customer-managed CMKs, AWS managed CMKs, and AWS owned CMKs.
   - !Ref={https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#master_keys}
+
+  ## 
+  ```
+  {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Sid": "Allow for use of this Key",
+              "Effect": "Allow",
+              "Principal": {
+                  "AWS": "arn:aws:iam::788787987987987:role/UserRole"
+              },
+              "Action": [
+                  "kms:GenerateDataKeyWithoutPlaintext",
+                  "kms:Decrypt"
+              ],
+              "Resource": "*"
+          },
+          {
+              "Sid": "Allow for EC2 Use",
+              "Effect": "Allow",
+              "Principal": {
+                  "AWS": "arn:aws:iam::788787987987987:role/UserRole"
+              },
+              "Action": [
+                  "kms:CreateGrant",
+                  "kms:ListGrants",
+                  "kms:RevokeGrant"
+              ],
+              "Resource": "*",
+              "Condition": {
+                  "StringEquals": {
+                  "kms:ViaService": "ec2.us-west-2.amazonaws.com"
+              }
+          }
+      ]
+  }
+  ```
+  - The first statement provides a specified IAM principal the ability to generate a data key and decrypt that data key from the CMK when necessary - To create and use an encrypted Amazon Elastic Block Store (EBS) volume, you need permissions to use Amazon EBS. The key policy associated with the CMK would need to include these. The above policy is an example of one such policy.
+
+  - In this CMK policy, the first statement provides a specified IAM principal the ability to generate a data key and decrypt that data key from the CMK when necessary. These two APIs are necessary to encrypt the EBS volume while it’s attached to an Amazon Elastic Compute Cloud (EC2) instance.
+
+  - The second statement in this policy provides the specified IAM principal the ability to create, list, and revoke grants for Amazon EC2. Grants are used to delegate a subset of permissions to AWS services, or other principals, so that they can use your keys on your behalf. In this case, the condition policy explicitly ensures that only Amazon EC2 can use the grants. Amazon EC2 will use them to re-attach an encrypted EBS volume back to an instance if the volume gets detached due to a planned or unplanned outage. These events will be recorded within AWS CloudTrail when, and if, they do occur for your auditing.
+  
+  - !Ref={https://d0.awsstatic.com/whitepapers/aws-kms-best-practices.pdf}
+
+
+  ### Envelope Encryption
+  - Use Envelope Encryption and reference the data as file within the code
+
+  - While AWS KMS does support sending data up to 4 KB to be encrypted directly, envelope encryption can offer significant performance benefits. When you encrypt data directly with AWS KMS it must be transferred over the network. Envelope encryption reduces the network load since only the request and delivery of the much smaller data key go over the network. The data key is used locally in your application or encrypting AWS service, avoiding the need to send the entire block of data to AWS KMS and suffer network latency.
+
+  - AWS Lambda environment variables can have a maximum size of 4 KB. Additionally, the direct 'Encrypt' API of KMS also has an upper limit of 4 KB for the data payload. To encrypt 1 MB, you need to use the Encryption SDK and pack the encrypted file with the lambda function.
+
 
 # Storage:
 ## STORAGE CONCEPTS
@@ -589,7 +751,8 @@ Maximum burst duration @ 3000 IOPS
 ## EBS Volume Types (Previous Generation – Reference Only)
 
 <img src="./images/screen-shot-2016-03-12-at-7-21-06-am.png" title="screen-shot-2016-03-12-at-7-21-06-am" height="700px"></img>
-
+<br/>
+- !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volume-types.html}
 
 # File Storage
 File storage servers store data in a hierarchical structure using files and folders. Data is accessed as
@@ -1239,6 +1402,10 @@ Access keys and passwords should be changed regularly.
 - Use groups to assign permissions to users
 - Use the principal of least privilege when assigning permissions
 - You cannot nest groups (groups within groups)
+### Verify Permissions
+  - Use the AWS CLI --dry-run option: The --dry-run option checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation, otherwise, it is UnauthorizedOperation.
+  - !Ref={https://docs.aws.amazon.com/cli/latest/reference/ec2/terminate-instances.html}
+
 
 
 ## IAM Roles
@@ -1490,6 +1657,13 @@ The following diagram shows the different methods of authentication available wi
 - Use policy conditions for extra security
 - Monitor activity in your AWS account
 
+## Generate a public SSH
+- Generate a public SSH key from a private SSH key. Then, import the key into each of your AWS Regions
+  - Here is the correct way of reusing SSH keys in your AWS Regions:
+    - Generate a public SSH key (.pub) file from the private SSH key (.pem) file.
+    - Set the AWS Region you wish to import to.
+    - Import the public SSH key into the new Region.
+
 
 # Section 5: Create AWS Free Tier Account (optional)
 
@@ -1527,6 +1701,10 @@ The following diagram shows the different methods of authentication available wi
     - Instance metadata is data about your instance that you can use to configure or manage the running instance
     - Instance metadata is available at http://169.254.169.254/latest/meta-data
     - The Instance Metadata Query tool allows you to query the instance metadata without having to type out the full URI or category names
+
+  ### The ASG will terminate the EC2 Instance
+    - To maintain the same number of instances, Amazon EC2 Auto Scaling performs a periodic health check on running instances within an Auto Scaling group. When it finds that an instance is unhealthy, it terminates that instance and launches a new one. Amazon EC2 Auto Scaling creates a new scaling activity for terminating the unhealthy instance and then terminates it. Later, another scaling activity launches a new instance to replace the terminated instance.
+    - !Ref={https://aws.amazon.com/premiumsupport/knowledge-center/auto-scaling-terminate-instance/}
 
 
 - ECS - FARGATE - run Docker containers quickly
@@ -1680,6 +1858,10 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
 - When you upload an object, you can specify the AWS KMS CMK using the x-amz-server-side-encryption-aws-kms-key-id header. If the header is not present in the request, Amazon S3 assumes the AWS-managed CMK.
 - !Ref={https://docs.aws.amazon.com/AmazonS3/latest/userguide/UsingKMSEncryption.html}
 
+- S3 Logging
+  - S3 access logging is pointing to the same bucket and is responsible for the substantial growth of bucket size - When your source bucket and target bucket are the same bucket, additional logs are created for the logs that are written to the bucket. The extra logs about logs might make it harder to find the log that you are looking for. This configuration would drastically increase the size of the S3 bucket.
+    - !Ref={https://aws.amazon.com/premiumsupport/knowledge-center/s3-server-access-logs-same-bucket/}
+
 ## EBS
 - only 1 that can be used as a boot
 - appear as local disks
@@ -1737,6 +1919,17 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
 # Section 11: AWS Content Delivery & DNS Services
 - Route 53 - DNS across regions
 - CloudFront - ContentDelivery - CDN
+  ### Specifying the signers that can create signed URLs and signed cookies
+    When you create a signer, the public key is with CloudFront and private key is used to sign a portion of URL - Each signer that you use to create CloudFront signed URLs or signed cookies must have a public–private key pair. The signer uses its private key to sign the URL or cookies, and CloudFront uses the public key to verify the signature.
+
+    When you create signed URLs or signed cookies, you use the private key from the signer’s key pair to sign a portion of the URL or the cookie. When someone requests a restricted file, CloudFront compares the signature in the URL or cookie with the unsigned URL or cookie, to verify that it hasn’t been tampered with. CloudFront also verifies that the URL or cookie is valid, meaning, for example, that the expiration date and time haven’t passed.
+
+    When you use the root user to manage CloudFront key pairs, you can only have up to two active CloudFront key pairs per AWS account - When you use the root user to manage CloudFront key pairs, you can only have up to two active CloudFront key pairs per AWS account.
+
+    Whereas, with CloudFront key groups, you can associate a higher number of public keys with your CloudFront distribution, giving you more flexibility in how you use and manage the public keys. By default, you can associate up to four key groups with a single distribution, and you can have up to five public keys in a key group.
+
+    - !Ref={https://docs.aws.amazon.com/AmazonCloudFront/latest/DeveloperGuide/private-content-trusted-signers.html}
+
 
 # Section 12: AWS Monitoring & Logging SErvices
 - CloudWatch : performance
@@ -1767,6 +1960,8 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
     - <b><i>Rolling with additional batch </b></i> – Avoids any reduced availability, at a cost of an even longer deployment time compared to the Rolling method. Suitable if you must maintain the same bandwidth throughout the deployment. With this method, Elastic Beanstalk launches an extra batch of instances, then performs a rolling deployment. Launching the extra batch takes time, and ensures that the same bandwidth is retained throughout the deployment.
 
     - <b><i>Immutable </b></i>– A slower deployment method, that ensures your new application version is always deployed to new instances, instead of updating existing instances. It also has the additional advantage of a quick and safe rollback in case the deployment fails. With this method, Elastic Beanstalk performs an immutable update to deploy your application. In an immutable update, a second Auto Scaling group is launched in your environment and the new version serves traffic alongside the old version until the new instances pass health checks.
+      !Ref={https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/Welcome.html}
+      !Ref={https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.deploy-existing-version.html}
 
     - <b><i>Traffic splitting </b></i> – A canary testing deployment method. Suitable if you want to test the health of your new application version using a portion of incoming traffic, while keeping the rest of the traffic served by the old application version.
 
@@ -1787,6 +1982,18 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
   - Immutable updates
   - Deployments with immutable updates or traffic splitting enabled
   - !Ref={https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/using-features.rolling-version-deploy.html}
+
+### Advanced environment customization with configuration files (.ebextensions)
+  - Include config files in .ebextensions/ at the root of your source code
+  - The option_settings section of a configuration file defines values for configuration options. Configuration options let you configure your Elastic Beanstalk environment, the AWS resources in it, and the software that runs your application. 
+  - Configuration files are only one of several ways to set configuration options.
+  - !Ref={https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ebextensions.html}
+  - !REf={https://docs.aws.amazon.com/elasticbeanstalk/latest/dg/ebextensions-optionsettings.html}
+  
+
+
+
+
 
 
 # Section 14: AWS Migration & Transfer Services
@@ -1954,6 +2161,25 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
 - RemovePermission - Revokes any permissions in the queue policy that matches the specified Label parameter.
 -!Ref={https://docs.aws.amazon.com/AWSSimpleQueueService/latest/APIReference/API_RemovePermission.html}
 
+### Delay Queue
+-Use delay queues to postpone the delivery of new messages to the queue for a few seconds
+
+- Amazon Simple Queue Service (SQS) is a fully managed message queuing service that enables you to decouple and scale microservices, distributed systems, and serverless applications. SQS offers two types of message queues. Standard queues offer maximum throughput, best-effort ordering, and at-least-once delivery. SQS FIFO queues are designed to guarantee that messages are processed exactly once, in the exact order that they are sent.
+
+- Delay queues let you postpone the delivery of new messages to a queue for several seconds, for example, when your consumer application needs additional time to process messages. If you create a delay queue, any messages that you send to the queue remain invisible to consumers for the duration of the delay period. The default (minimum) delay for a queue is 0 seconds. The maximum is 15 minutes.
+
+<b>Use FIFO queues to postpone the delivery of new messages to the queue for a few seconds</b> - SQS FIFO queues are designed to guarantee that messages are processed exactly once, in the exact order that they are sent. You cannot use FIFO queues to postpone the delivery of new messages to the queue for a few seconds.
+
+<b>Use dead-letter queues to postpone the delivery of new messages to the queue for a few seconds</b> - Dead-letter queues can be used by other queues (source queues) as a target for messages that can't be processed (consumed) successfully. Dead-letter queues are useful for debugging your application or messaging system because they let you isolate problematic messages to determine why their processing doesn't succeed. You cannot use dead-letter queues to postpone the delivery of new messages to the queue for a few seconds.
+  - !Ref={https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-dead-letter-queues.html}
+
+<b>Use visibility timeout to postpone the delivery of new messages to the queue for a few seconds</b> - Visibility timeout is a period during which Amazon SQS prevents other consumers from receiving and processing a given message. The default visibility timeout for a message is 30 seconds. The minimum is 0 seconds. The maximum is 12 hours. You cannot use visibility timeout to postpone the delivery of new messages to the queue for a few seconds.
+- !Ref={https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-delay-queues.html}
+
+  ### Limits
+  - "no limit": There are no message limits for storing in SQS, but 'in-flight messages' do have limits. Make sure to delete messages after you have processed them. There can be a maximum of approximately 120,000 inflight messages (received from a queue by a consumer, but not yet deleted from the queue).
+  !Ref={https://docs.aws.amazon.com/AWSSimpleQueueService/latest/SQSDeveloperGuide/sqs-limits.html}
+
 
 # Sectin 23: (Contêineres:)
 ## Amazon Elastic Container Registry (ECR)
@@ -1979,8 +2205,19 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
   ## Exam Alert:
   - Review the following note to understand the differences between Cognito User Pools and Cognito Identity Pools:
 
-- !Ref={https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html}
-- !Ref={https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html} 
+  - !Ref={https://docs.aws.amazon.com/cognito/latest/developerguide/what-is-amazon-cognito.html}
+  - !Ref={https://docs.aws.amazon.com/cognito/latest/developerguide/amazon-cognito-user-pools-using-tokens-with-identity-providers.html} 
+
+  ## access DynamoDB
+    - Use Cognito Identity pools to enable trusted third-party authenticated users to access DynamoDB
+
+    - Amazon Cognito identity pools (federated identities) enable you to create unique identities for your users and federate them with identity providers. With an identity pool, you can obtain temporary, limited-privilege AWS credentials to access other AWS services. Amazon Cognito identity pools support the following identity providers:
+
+    - Public providers: Login with Amazon (Identity Pools), Facebook (Identity Pools), Google (Identity Pools), Sign in with Apple (Identity Pools).
+      - Amazon Cognito User Pools
+      - Open ID Connect Providers (Identity Pools)
+      - SAML Identity Providers (Identity Pools)
+      - Developer Authenticated Identities (Identity Pools)
 
 
 # Sectin 25: (AWS: AWS Cloud Development Kit)
@@ -2036,6 +2273,21 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
   - Amazon Kinesis Data Firehose is a fully managed service for delivering real-time streaming data to destinations such as Amazon Simple Storage Service (Amazon S3), Amazon Redshift, Amazon Elasticsearch Service (Amazon ES), and Splunk. 
   - With Kinesis Data Firehose, you don't need to write applications or manage resources. 
   - You configure your data producers to send data to Kinesis Data Firehose, and it automatically delivers the data to the destination that you specified.
+  ## Kinesis Producer Library (KPL) ProvisionedThroughputExceeded exception.
+    - Configure the data producer to retry with an exponential backoff
+    - Increase the number of shards within your data streams to provide enough capacity
+    
+  - Amazon Kinesis Data Streams enables you to build custom applications that process or analyze streaming data for specialized needs. You can continuously add various types of data such as clickstreams, application logs, and social media to an Amazon Kinesis data stream from hundreds of thousands of sources.
+
+  - The capacity limits of an Amazon Kinesis data stream are defined by the number of shards within the data stream. The limits can be exceeded by either data throughput or the number of PUT records. While the capacity limits are exceeded, the put data call will be rejected with a ProvisionedThroughputExceeded exception.
+
+  - If this is due to a temporary rise of the data stream’s input data rate, retry (with exponential backoff) by the data producer will eventually lead to the completion of the requests.
+
+  - If this is due to a sustained rise of the data stream’s input data rate, you should increase the number of shards within your data stream to provide enough capacity for the put data calls to consistently succeed.
+
+  - !Ref={https://aws.amazon.com/kinesis/data-streams/faqs/}
+  - !Ref={https://aws.amazon.com/kinesis/data-streams/}
+  - !Ref={https://aws.amazon.com/kinesis/data-streams/faqs/}
 
   ### Note
     - Amazon ElastiCache with Amazon S3 as backup - Amazon ElastiCache is a fully managed in-memory data store, compatible with Redis or Memcached. 
@@ -2051,6 +2303,37 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
     - !Ref={https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html}
     - !Ref={https://docs.aws.amazon.com/firehose/latest/dev/what-is-this-service.html}
 
+
+# Sectin 29: (AWS: api-gateway)
+  - API Gateway supports the following mechanisms for authentication and authorization:
+  - You can use the following mechanisms for authentication and authorization:
+
+    <b>Resource policies</b> let you create resource-based policies to allow or deny access to your APIs and methods from specified source IP addresses or VPC endpoints. For more information, see Controlling access to an API with API Gateway resource policies.
+
+    <b>Standard AWS IAM roles and policies</b> offer flexible and robust access controls that can be applied to an entire API or individual methods. IAM roles and policies can be used for controlling who can create and manage your APIs, as well as who can invoke them. For more information, see Control access to an API with IAM permissions.
+
+    <b>IAM tags </b> can be used together with IAM policies to control access. For more information, see Using tags to control access to API Gateway resources.
+
+    <b>Endpoint policies for interface VPC endpoints</b> allow you to attach IAM resource policies to interface VPC endpoints to improve the security of your private APIs. For more information, see Use VPC endpoint policies for private APIs in API Gateway.
+
+    <b> Lambda authorizers </b> are Lambda functions that control access to REST API methods using bearer token authentication—as well as information described by headers, paths, query strings, stage variables, or context variables request parameters. Lambda authorizers are used to control who can invoke REST API methods. For more information, see Use API Gateway Lambda authorizers.
+
+    <b>Amazon Cognito user pools</b> let you create customizable authentication and authorization solutions for your REST APIs. Amazon Cognito user pools are used to control who can invoke REST API methods. For more information, see Control access to a REST API using Amazon Cognito user pools as authorizer.
+
+  - You can use the following mechanisms for performing other tasks related to access control:
+
+    <b> Cross-origin resource sharing (CORS) </b> lets you control how your REST API responds to cross-domain resource requests. For more information, see Enabling CORS for a REST API resource.
+
+    <b> Client-side SSL certificates </b> can be used to verify that HTTP requests to your backend system are from API Gateway. For more information, see Generate and configure an SSL certificate for backend authentication.
+
+    <b>AWS WAF</b> can be used to protect your API Gateway API from common web exploits. For more information, see Using AWS WAF to protect your APIs.
+
+  - You can use the following mechanisms for tracking and limiting the access that you have granted to authorized clients:
+
+    <b>Usage plans</b> let you provide <b>API keys</b> to your customers—and then track and limit usage of your API stages and methods for each API key. For more information, see Creating and using usage plans with API keys.
+
+  - !Ref={https://docs.aws.amazon.com/apigateway/latest/developerguide/apigateway-control-access-to-api.html}
+  - !Ref={https://aws.amazon.com/api-gateway/}
 
 # Others 
 - trade capital expense for variable/operational expense
@@ -2242,6 +2525,12 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
         - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html}
         - !Ref={https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html}
         
+
+  ### Regional and zonal Reserved Instances (scope)
+    When you purchase a Reserved Instance, you determine the scope of the Reserved Instance. The scope is either regional or zonal.
+
+      Regional: When you purchase a Reserved Instance for a Region, it's referred to as a regional Reserved Instance.
+      Zonal:  When you purchase a Reserved Instance for a specific Availability Zone, it's referred to as a zonal Reserved Instance.
 
 
 
@@ -2503,6 +2792,53 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
     - !Ref={https://docs.aws.amazon.com/datapipeline/latest/DeveloperGuide/dp-importexport-ddb-part1.html}
     - !Ref={https://docs.aws.amazon.com/emr/latest/ReleaseGuide/EMR_Hive_Commands.html#EMR_Hive_Commands_exporting}
     - !Ref={https://aws.amazon.com/blogs/big-data/how-to-export-an-amazon-dynamodb-table-to-amazon-s3-using-aws-step-functions-and-aws-glue/}
+  
+  ### Conditional Writes
+    -Conditional writes - DynamoDB optionally supports conditional writes for write operations (PutItem, UpdateItem, DeleteItem). A conditional write succeeds only if the item attributes meet one or more expected conditions. Otherwise, it returns an error.
+
+    - For example, you might want a PutItem operation to succeed only if there is not already an item with the same primary key. Or you could prevent an UpdateItem operation from modifying an item if one of its attributes has a certain value. Conditional writes are helpful in cases where multiple users attempt to modify /the same item. This is the right choice for the current scenario.
+
+    - !Ref={https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/WorkingWithItems.html#WorkingWithItems.ConditionalUpdate}
+
+  ### ConsistentRead
+    - Use ConsistentRead = true while doing GetItem operation for any item
+    - DynamoDB supports eventually consistent and strongly consistent reads.
+
+    ### Eventually Consistent Reads
+
+    When you read data from a DynamoDB table, the response might not reflect the results of a recently completed write operation. The response might include some stale data. If you repeat your read request after a short time, the response should return the latest data.
+
+    ### Strongly Consistent Reads
+
+    When you request a strongly consistent read, DynamoDB returns a response with the most up-to-date data, reflecting the updates from all prior write operations that were successful.
+
+    DynamoDB uses eventually consistent reads by default. Read operations (such as GetItem, Query, and Scan) provide a ConsistentRead parameter. If you set this parameter to true, DynamoDB uses strongly consistent reads during the operation. As per the given use-case, to make sure that only the last updated value of any item is used in the application, you should use strongly consistent reads by setting ConsistentRead = true for GetItem operation.
+
+    - !Ref={https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.ReadConsistency.html}
+
+    ### Note
+    ```
+      DynamoDB uses eventually consistent reads, unless you specify otherwise. Read operations (such as GetItem, Query, and Scan) provide a ConsistentRead parameter. If you set this parameter to true, DynamoDB uses strongly consistent reads during the operation.
+    ```
+
+  ### Transactions
+  - !Ref={https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/transaction-apis.html#transaction-apis-txwriteitems}
+
+  ### Actions, resources, and condition keys for Amazon DynamoDB
+  - !Ref={https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html}
+  - !Ref={https://docs.amazonaws.cn/en_us/amazondynamodb/latest/developerguide/transaction-apis-iam.html}
+  - !Ref={https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazondynamodb.html}
+
+  ### Using Amazon VPC Endpoints to Access DynamoDB
+  - !Ref={https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/vpc-endpoints-dynamodb.html}
+  - Configure VPC endpoints for DynamoDB that will provide required internal access without using public internet
+    - When you create a VPC endpoint for DynamoDB, any requests to a DynamoDB endpoint within the Region (for example, dynamodb.us-west-2.amazonaws.com) are routed to a private DynamoDB endpoint within the Amazon network. 
+    - You don't need to modify your applications running on EC2 instances in your VPC. 
+    - The endpoint name remains the same, but the route to DynamoDB stays entirely within the Amazon network, and does not access the public internet. 
+    - You use endpoint policies to control access to DynamoDB. Traffic between your VPC and the AWS service does not leave the Amazon network. 
+      - !Ref={https://docs.aws.amazon.com/vpc/latest/userguide/vpc-nat-gateway.html}
+      - !Ref=https://docs.aws.amazon.com/vpc/latest/userguide/Carrier_Gateway.html} 
+
 
 
 ## DocumentDB
@@ -2654,6 +2990,9 @@ This bucket policy denies upload object (s3:PutObject) permission if the request
   - !Ref={https://aws.amazon.com/blogs/devops/using-the-new-cloudformation-parameter-types/}
 
 
+  ### CloudFormation Stack Reference (Delete)
+  - All of the imports must be removed before you can delete the exporting stack or modify the output value. In this case, you must delete Stack B as well as Stack C, before you delete Stack A.
+  !Ref={https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-stack-exports.html}
 
 
 ## AWS CloudFront  {Content Delivery Service}
